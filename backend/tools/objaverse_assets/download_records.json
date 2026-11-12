@@ -1,0 +1,461 @@
+{
+  "48d5fee6105a4f82aa3e30f1148da32f": {
+    "local_path": "C:\\Users\\Kaustubh\\.objaverse\\hf-objaverse-v1\\glbs\\000-102\\48d5fee6105a4f82aa3e30f1148da32f.glb",
+    "metadata": {
+      "animationCount": 1,
+      "archives": {
+        "glb": {
+          "faceCount": 91406,
+          "size": 5502608,
+          "textureCount": 4,
+          "textureMaxResolution": 1024,
+          "type": "glb",
+          "vertexCount": 58012
+        },
+        "gltf": {
+          "faceCount": 91406,
+          "size": 3247725,
+          "textureCount": 4,
+          "textureMaxResolution": 1024,
+          "type": "gltf",
+          "vertexCount": 58012
+        },
+        "source": {
+          "faceCount": null,
+          "size": 4743082,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "source",
+          "vertexCount": null
+        },
+        "usdz": {
+          "faceCount": null,
+          "size": 3998672,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "usdz",
+          "vertexCount": null
+        }
+      },
+      "categories": [
+        {
+          "name": "people"
+        }
+      ],
+      "commentCount": 2,
+      "createdAt": "2018-09-28T10:58:28.844142",
+      "description": "model man cartoon fitness",
+      "embedUrl": "https://sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/embed",
+      "faceCount": 91406,
+      "isAgeRestricted": false,
+      "isDownloadable": true,
+      "license": "by",
+      "likeCount": 11,
+      "name": "Man Cartoon Fitness",
+      "publishedAt": "2018-09-28T11:33:09.087468",
+      "staffpickedAt": null,
+      "tags": [
+        {
+          "name": "fitness-strong-strongman",
+          "slug": "fitness-strong-strongman",
+          "uri": "https://api.sketchfab.com/v3/tags/fitness-strong-strongman"
+        },
+        {
+          "name": "cartoon",
+          "slug": "cartoon",
+          "uri": "https://api.sketchfab.com/v3/tags/cartoon"
+        },
+        {
+          "name": "man",
+          "slug": "man",
+          "uri": "https://api.sketchfab.com/v3/tags/man"
+        }
+      ],
+      "thumbnails": {
+        "images": [
+          {
+            "height": 1080,
+            "size": 114501,
+            "uid": "2c5ac077ec3b415bac9d7b3fe89e3953",
+            "url": "https://media.sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/thumbnails/7b288da5d1cd456590192c408f510286/8b980b1e9e3149c6b294f2d7b287130f.jpeg",
+            "width": 1920
+          },
+          {
+            "height": 576,
+            "size": 31068,
+            "uid": "d1d7f3921a3c483d9d5964559ae4d7d9",
+            "url": "https://media.sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/thumbnails/7b288da5d1cd456590192c408f510286/d160481746ac4cfd80e89d637dd843a3.jpeg",
+            "width": 1024
+          },
+          {
+            "height": 405,
+            "size": 16840,
+            "uid": "350c9f5f84c14cb7841110b94bf07564",
+            "url": "https://media.sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/thumbnails/7b288da5d1cd456590192c408f510286/a42ebf279c8b49e3b9c70e9d2a93f9f7.jpeg",
+            "width": 720
+          },
+          {
+            "height": 144,
+            "size": 3742,
+            "uid": "cc9472bbaae34ab59de75a96189faa55",
+            "url": "https://media.sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/thumbnails/7b288da5d1cd456590192c408f510286/9ce9e9bad3fe4b2892adbb5d28f3e3fc.jpeg",
+            "width": 256
+          },
+          {
+            "height": 36,
+            "size": 745,
+            "uid": "1a9a130598da480ca3cbf5136fc36bc6",
+            "url": "https://media.sketchfab.com/models/48d5fee6105a4f82aa3e30f1148da32f/thumbnails/7b288da5d1cd456590192c408f510286/7447de4af87344898505c1a9730a595a.jpeg",
+            "width": 64
+          }
+        ]
+      },
+      "uid": "48d5fee6105a4f82aa3e30f1148da32f",
+      "uri": "https://api.sketchfab.com/v3/models/48d5fee6105a4f82aa3e30f1148da32f",
+      "user": {
+        "account": "basic",
+        "avatar": {
+          "images": [
+            {
+              "height": 90,
+              "size": 4544,
+              "url": "https://media.sketchfab.com/avatars/b012f77e43fd4c75af2083dd6033ec1f/185c50a9bb804343841d2d8b4d183392.jpeg",
+              "width": 90
+            },
+            {
+              "height": 100,
+              "size": 5202,
+              "url": "https://media.sketchfab.com/avatars/b012f77e43fd4c75af2083dd6033ec1f/f790fc9a0cbe4cb8b0363018588baf41.jpeg",
+              "width": 100
+            },
+            {
+              "height": 48,
+              "size": 2259,
+              "url": "https://media.sketchfab.com/avatars/b012f77e43fd4c75af2083dd6033ec1f/df6f724382874ecc8932c2b205e34503.jpeg",
+              "width": 48
+            },
+            {
+              "height": 32,
+              "size": 1614,
+              "url": "https://media.sketchfab.com/avatars/b012f77e43fd4c75af2083dd6033ec1f/2f0aab5e9474490aa7d9cbc5e25ce30b.jpeg",
+              "width": 32
+            }
+          ],
+          "uri": "https://api.sketchfab.com/v3/avatars/b012f77e43fd4c75af2083dd6033ec1f"
+        },
+        "displayName": "mortaleiros",
+        "profileUrl": "https://sketchfab.com/mortaleiros",
+        "uid": "0da42ca9e8944f8492da08e301f64232",
+        "uri": "https://api.sketchfab.com/v3/users/0da42ca9e8944f8492da08e301f64232",
+        "username": "mortaleiros"
+      },
+      "vertexCount": 46764,
+      "viewCount": 680,
+      "viewerUrl": "https://sketchfab.com/3d-models/48d5fee6105a4f82aa3e30f1148da32f"
+    }
+  },
+  "97e61e9cb1e44fbc9893135f4a8b0f71": {
+    "local_path": "C:\\Users\\Kaustubh\\.objaverse\\hf-objaverse-v1\\glbs\\000-092\\97e61e9cb1e44fbc9893135f4a8b0f71.glb",
+    "metadata": {
+      "animationCount": 0,
+      "archives": {
+        "glb": {
+          "faceCount": 276795,
+          "size": 52318116,
+          "textureCount": 1,
+          "textureMaxResolution": 8192,
+          "type": "glb",
+          "vertexCount": 830267
+        },
+        "gltf": {
+          "faceCount": 276795,
+          "size": 31369619,
+          "textureCount": 1,
+          "textureMaxResolution": 8192,
+          "type": "gltf",
+          "vertexCount": 830267
+        },
+        "source": {
+          "faceCount": null,
+          "size": 57814917,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "source",
+          "vertexCount": null
+        },
+        "usdz": {
+          "faceCount": null,
+          "size": 30255919,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "usdz",
+          "vertexCount": null
+        }
+      },
+      "categories": [
+        {
+          "name": "cars-vehicles"
+        }
+      ],
+      "commentCount": 0,
+      "createdAt": "2022-05-01T07:42:45.489965",
+      "description": "Riga-16 moped with removed engine. I've made this model for my electric conversion\n\nМопед Рига-16 с удаленным двигателем. Модель использоволась для конвертации на электропривод",
+      "embedUrl": "https://sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/embed",
+      "faceCount": 276795,
+      "isAgeRestricted": false,
+      "isDownloadable": true,
+      "license": "by",
+      "likeCount": 0,
+      "name": "Riga-16 (Engine removed) - Рига 16 (Без мотора)",
+      "publishedAt": "2022-05-01T07:46:18.138327",
+      "staffpickedAt": null,
+      "tags": [
+        {
+          "name": "soviet",
+          "slug": "soviet",
+          "uri": "https://api.sketchfab.com/v3/tags/soviet"
+        },
+        {
+          "name": "motorcycle",
+          "slug": "motorcycle",
+          "uri": "https://api.sketchfab.com/v3/tags/motorcycle"
+        },
+        {
+          "name": "moped",
+          "slug": "moped",
+          "uri": "https://api.sketchfab.com/v3/tags/moped"
+        },
+        {
+          "name": "riga",
+          "slug": "riga",
+          "uri": "https://api.sketchfab.com/v3/tags/riga"
+        },
+        {
+          "name": "3dscan",
+          "slug": "3dscan",
+          "uri": "https://api.sketchfab.com/v3/tags/3dscan"
+        }
+      ],
+      "thumbnails": {
+        "images": [
+          {
+            "height": 1080,
+            "size": 71824,
+            "uid": "c9da03590ed94948bc631d4f8fbd51ae",
+            "url": "https://media.sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/thumbnails/2f21d67c31914e41893518963fc498b1/f93e84583d6441ea8fcd5b98ed36ef39.jpeg",
+            "width": 1920
+          },
+          {
+            "height": 576,
+            "size": 22097,
+            "uid": "06ca649ef891447da041a886b0ecd027",
+            "url": "https://media.sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/thumbnails/2f21d67c31914e41893518963fc498b1/6e451787e41e4c058fabb23123bbf541.jpeg",
+            "width": 1024
+          },
+          {
+            "height": 405,
+            "size": 12363,
+            "uid": "a91bab42813c4e8180ce74d7915190d6",
+            "url": "https://media.sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/thumbnails/2f21d67c31914e41893518963fc498b1/d6d140c567c8478dbf96520a4f0eeffc.jpeg",
+            "width": 720
+          },
+          {
+            "height": 144,
+            "size": 2559,
+            "uid": "7cd1798288f34a1ab0d6cc94f0c333fc",
+            "url": "https://media.sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/thumbnails/2f21d67c31914e41893518963fc498b1/f98dbbbb7f854f5588495487cd3d9b97.jpeg",
+            "width": 256
+          },
+          {
+            "height": 36,
+            "size": 866,
+            "uid": "fee8d7312ac048079c10e455584d6337",
+            "url": "https://media.sketchfab.com/models/97e61e9cb1e44fbc9893135f4a8b0f71/thumbnails/2f21d67c31914e41893518963fc498b1/6d381007ab5b40a4bf6939ca63030234.jpeg",
+            "width": 64
+          }
+        ]
+      },
+      "uid": "97e61e9cb1e44fbc9893135f4a8b0f71",
+      "uri": "https://api.sketchfab.com/v3/models/97e61e9cb1e44fbc9893135f4a8b0f71",
+      "user": {
+        "account": "basic",
+        "avatar": {
+          "images": [
+            {
+              "height": 32,
+              "size": 680,
+              "url": "https://media.sketchfab.com/avatars/3ef1bd11d3eb4b57a0b353e8f2e5fc3e/116042a0854e40538adab302b593683d.jpeg",
+              "width": 32
+            },
+            {
+              "height": 48,
+              "size": 1253,
+              "url": "https://media.sketchfab.com/avatars/3ef1bd11d3eb4b57a0b353e8f2e5fc3e/efea16be51d04eb7a00cb9ea0b43b87f.jpeg",
+              "width": 48
+            },
+            {
+              "height": 90,
+              "size": 2797,
+              "url": "https://media.sketchfab.com/avatars/3ef1bd11d3eb4b57a0b353e8f2e5fc3e/ac9b469ccec74caf923a81fb2f0be3ed.jpeg",
+              "width": 90
+            },
+            {
+              "height": 100,
+              "size": 3215,
+              "url": "https://media.sketchfab.com/avatars/3ef1bd11d3eb4b57a0b353e8f2e5fc3e/a075e1d43d2f446c949b5967b470c757.jpeg",
+              "width": 100
+            }
+          ],
+          "uri": "https://api.sketchfab.com/v3/avatars/3ef1bd11d3eb4b57a0b353e8f2e5fc3e"
+        },
+        "displayName": "thehellbox11",
+        "profileUrl": "https://sketchfab.com/thehellbox11",
+        "uid": "769d7490d20744959501855ce49c1731",
+        "uri": "https://api.sketchfab.com/v3/users/769d7490d20744959501855ce49c1731",
+        "username": "thehellbox11"
+      },
+      "vertexCount": 138526,
+      "viewCount": 44,
+      "viewerUrl": "https://sketchfab.com/3d-models/97e61e9cb1e44fbc9893135f4a8b0f71"
+    }
+  },
+  "ad0f9220657c43fb89692dcf7a6b45a8": {
+    "local_path": "C:\\Users\\Kaustubh\\.objaverse\\hf-objaverse-v1\\glbs\\000-011\\ad0f9220657c43fb89692dcf7a6b45a8.glb",
+    "metadata": {
+      "animationCount": 0,
+      "archives": {
+        "glb": {
+          "faceCount": 61176,
+          "size": 2478676,
+          "textureCount": 0,
+          "textureMaxResolution": 0,
+          "type": "glb",
+          "vertexCount": 54217
+        },
+        "gltf": {
+          "faceCount": 61176,
+          "size": 929337,
+          "textureCount": 0,
+          "textureMaxResolution": 0,
+          "type": "gltf",
+          "vertexCount": 54217
+        },
+        "source": {
+          "faceCount": null,
+          "size": 1052306,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "source",
+          "vertexCount": null
+        },
+        "usdz": {
+          "faceCount": null,
+          "size": 1388655,
+          "textureCount": null,
+          "textureMaxResolution": null,
+          "type": "usdz",
+          "vertexCount": null
+        }
+      },
+      "categories": [
+        {
+          "name": "cars-vehicles"
+        }
+      ],
+      "commentCount": 0,
+      "createdAt": "2020-05-06T16:36:27.320516",
+      "description": "",
+      "embedUrl": "https://sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/embed",
+      "faceCount": 61176,
+      "isAgeRestricted": false,
+      "isDownloadable": true,
+      "license": "by",
+      "likeCount": 5,
+      "name": "Vintage Scooter",
+      "publishedAt": "2020-05-07T17:24:14.878842",
+      "staffpickedAt": null,
+      "tags": [],
+      "thumbnails": {
+        "images": [
+          {
+            "height": 1080,
+            "size": 280943,
+            "uid": "2fe037adc05040959b736985327073d2",
+            "url": "https://media.sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/thumbnails/9f59d96ccda94a7c989fbf5e13f98c82/52744278e0dd4d8c9c0af2efa4bd66ff.jpeg",
+            "width": 1920
+          },
+          {
+            "height": 576,
+            "size": 37382,
+            "uid": "549c2198bed244e3b90c9b40cca6e112",
+            "url": "https://media.sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/thumbnails/9f59d96ccda94a7c989fbf5e13f98c82/572ccfea9d16459c8e877cbb321837cb.jpeg",
+            "width": 1024
+          },
+          {
+            "height": 405,
+            "size": 17039,
+            "uid": "78e137e9ea704084873e557f227af927",
+            "url": "https://media.sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/thumbnails/9f59d96ccda94a7c989fbf5e13f98c82/127dc12307c2495cb208fe5211faf5de.jpeg",
+            "width": 720
+          },
+          {
+            "height": 144,
+            "size": 2871,
+            "uid": "4c9715ee9892460f9b2b635ec9566a45",
+            "url": "https://media.sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/thumbnails/9f59d96ccda94a7c989fbf5e13f98c82/ed3d76efca254b7bbc69eef9d817cea7.jpeg",
+            "width": 256
+          },
+          {
+            "height": 36,
+            "size": 695,
+            "uid": "1c6d46b6778a4ced88812dcf01c4868c",
+            "url": "https://media.sketchfab.com/models/ad0f9220657c43fb89692dcf7a6b45a8/thumbnails/9f59d96ccda94a7c989fbf5e13f98c82/4903457eba3b4deab09b92fdb008ccdb.jpeg",
+            "width": 64
+          }
+        ]
+      },
+      "uid": "ad0f9220657c43fb89692dcf7a6b45a8",
+      "uri": "https://api.sketchfab.com/v3/models/ad0f9220657c43fb89692dcf7a6b45a8",
+      "user": {
+        "account": "basic",
+        "avatar": {
+          "images": [
+            {
+              "height": 100,
+              "size": 6421,
+              "url": "https://media.sketchfab.com/avatars/78fa317e46024a5283765aa34df5e508/aec92fe9a74e499c98d759362cd7f02f.jpeg",
+              "width": 100
+            },
+            {
+              "height": 48,
+              "size": 2518,
+              "url": "https://media.sketchfab.com/avatars/78fa317e46024a5283765aa34df5e508/17fa177ffaa344a2b2fc8e78efd40fbb.jpeg",
+              "width": 48
+            },
+            {
+              "height": 90,
+              "size": 5653,
+              "url": "https://media.sketchfab.com/avatars/78fa317e46024a5283765aa34df5e508/02162695bdc840faa3bcb2d418309c5e.jpeg",
+              "width": 90
+            },
+            {
+              "height": 32,
+              "size": 1350,
+              "url": "https://media.sketchfab.com/avatars/78fa317e46024a5283765aa34df5e508/6fde876cbded4cd48d36a76029e3aa02.jpeg",
+              "width": 32
+            }
+          ],
+          "uri": "https://api.sketchfab.com/v3/avatars/78fa317e46024a5283765aa34df5e508"
+        },
+        "displayName": "CinekR9",
+        "profileUrl": "https://sketchfab.com/CinekR9",
+        "uid": "d39e4f98c7974ca184ac5e87b6292b8b",
+        "uri": "https://api.sketchfab.com/v3/users/d39e4f98c7974ca184ac5e87b6292b8b",
+        "username": "CinekR9"
+      },
+      "vertexCount": 31266,
+      "viewCount": 74,
+      "viewerUrl": "https://sketchfab.com/3d-models/ad0f9220657c43fb89692dcf7a6b45a8"
+    }
+  }
+}

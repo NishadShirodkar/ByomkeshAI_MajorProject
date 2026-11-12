@@ -8,10 +8,10 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React: 19](https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![Three.js / R3F](https://img.shields.io/badge/Three.js-WebGL%20%2F%20R3F-black?logo=three.js&logoColor=white)](https://threejs.org)
-[![Gemini 2.0 Flash](https://img.shields.io/badge/Google%20GenAI-Gemini%202.0%20Flash-4285F4?logo=google&logoColor=white)](https://ai.google.dev)
+[![Google GenAI](https://img.shields.io/badge/Google%20GenAI-Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev)
 [![Legal Framework](https://img.shields.io/badge/Legal%20Code-BNS%20%7C%20BNSS%20%7C%20BSA%202023-darkred)](#)
 
-*An end-to-end judicial-grade investigative assistant built for Investigating Officers (IOs), forensic examiners, and legal review teams.*
+*An investigative decision-support prototype for Investigating Officers (IOs), forensic examiners, and legal review teams.*
 
 [Overview](#-overview) •
 [System Architecture](#-system-architecture) •
@@ -34,9 +34,9 @@ Under the modern Indian criminal justice system (**Bharatiya Nyaya Sanhita 2023 
 - **Provenance Vulnerability:** A single unsourced claim or mismatched timestamp in a Form IF5 Charge-Sheet can lead to evidentiary exclusion or acquittal.
 - **Cognitive Scene Reconstruction Gap:** Reconstructing collision angles, braking trajectories, bullet vectors, and conflicting eyewitness testimonies from flat 2D site plans and panchnamas is error-prone.
 
-**BYOMKESH AI** solves this with a **bifurcated hybrid architecture**:
-1. **Deterministic & AI-Assisted Document Pipeline:** Ingests heterogeneous physical/digital case dossiers, executes multimodal OCR, parses documents into typed Pydantic models, builds an immutable Knowledge Graph, detects factual conflicts, audits legal elements, and compiles a court-ready **Form IF5 Final Report (Charge-Sheet)** in PDF format.
-2. **Interactive 3D Crime Scene Simulation ("Sentinel / Arkham Detective Mode"):** Translates site plans, vehicular mechanical damage, and FSL physical measurements into a high-precision kinematic 3D simulation with dynamic timeline scrubbing, multi-hypothesis toggle, and trajectory visualization.
+**BYOMKESH AI** combines two areas of functionality:
+1. **Document processing and review:** Ingests case documents, performs digital PDF text extraction or Gemini OCR, parses documents into typed Pydantic models, builds an investigation graph, detects factual conflicts, validates evidence support, produces constrained legal findings, and drafts a Form IF5-style charge sheet and PDF for human review.
+2. **3D scene viewer:** Provides interactive, bundled example scenes with timeline controls, hypothesis toggles, and trajectory visualization. A backend scene projection module also produces scene data, but the current frontend viewer uses its bundled scenarios rather than loading that projection from the case API.
 
 ---
 
@@ -47,7 +47,7 @@ flowchart TD
     subgraph INTAKE ["1. Intake & Multimodal OCR"]
         A[Case Documents PDF/JPEG/PNG] --> B[Upload Manager & File Validator]
         B --> C[SHA-256 Hashing & Safe Layout]
-        C --> D[Gemini 2.0 Flash Multimodal OCR]
+        C --> D[Local PDF Text Extraction or Gemini OCR]
         D --> E[OCR Artifacts & Resume Cache]
     end
 
@@ -80,43 +80,39 @@ flowchart TD
 
 ## ✨ Core Features
 
-### 1. 🛡️ Unbreakable Chain of Custody & Provenance
-Every single claim, person, vehicle, and statutory section in the generated charge-sheet links directly back to its physical origin via `SourceReference` hashes:
-- Origin document UUID and SHA-256 checksum
-- Exact page number and line bounding coordinates
-- Verbatim excerpt citation with confidence score
+### 1. 🛡️ Provenance and Source Tracking
+The pipeline carries document identifiers, SHA-256 checksums, page references, excerpts, and available confidence information through extracted facts and review artifacts. It supports traceability for human review; it does not establish a legally verified chain of custody or guarantee that every generated field has a source citation.
 
 ### 2. 🔍 Statutory Legal Reasoning Engine
-- Version-pinned legal dataset covering **Bharatiya Nyaya Sanhita (BNS 2023)** and the **Motor Vehicles Act 1988 (MVA)**.
+- Version-pinned local BNS reference dataset and rule-based findings; Motor Vehicles Act references are used where configured by the case rules.
 - Maps evidence items to explicit statutory crime ingredients (e.g. rashness/negligence under BNS 281 vs. mens rea under BNS 103).
-- Strict evidence allow-list prevents hallucinations.
+- Findings are constrained to configured legal references and mapped case evidence, with unsupported or conflicting elements marked for review.
 
 ### 3. ⚖️ Human-in-the-Loop Review Lifecycle
-- Implements four auditable lifecycle states: `DRAFT` ➔ `REVIEW` ➔ `APPROVED` ➔ `FINALIZED`.
-- Investigating Officers can apply granular field-level corrections, log judicial notes, and sign off with tamper-evident digital hashes.
+- Tracks `DRAFT`, `REVIEW_REQUIRED`, `APPROVED`, `REJECTED`, and `FINALIZED` states.
+- Reviewers can apply field-level corrections, add notes, record decisions, and inspect revision history. Approval and finalization are guarded by validation and review state; this is an application audit trail, not a statutory digital signature.
 
 ### 4. 🧠 Hybrid RAG Subsystem
-- In-memory vector similarity retriever backed by Gemini embeddings.
-- Context-aware document chunking preserving legal paragraph hierarchies and FIR crime headers.
+- Case-isolated passage retrieval with embeddings when configured; a deterministic no-op embedding provider is used otherwise. Chunks preserve source and page references.
 
 ---
 
 ## 🎮 3D Forensic Simulation ("Sentinel" HUD)
 
-The simulation engine (`frontend/src/simulation/`) translates investigation measurements into an interactive 3D WebGL environment inspired by tactical forensic interfaces:
+The frontend viewer (`frontend/src/simulation/`) renders three bundled sample scenarios as an interactive WebGL environment. Scenario geometry, measurements, and hypotheses are defined in frontend JavaScript files; the viewer is not currently populated from uploaded case documents or backend scene-projection artifacts.
 
 | Feature | Description |
 | :--- | :--- |
-| **Kinematic Interpolator** | Dynamically calculates velocity curves, braking deceleration, impact points, and post-collision rest positions based on physical evidence (`kinematics.js`). |
+| **Kinematic Interpolator** | Animates scenario-defined vehicle movement and trajectories (`kinematics.js`). |
 | **Conflicting Hypothesis Engine** | Toggle in real-time between conflicting witness statements (e.g., Witness 1 estimating 75 km/h vs. Accused claiming 35 km/h). |
-| **Interactive 3D Evidence Markers** | Inspect physical props (crowbars, broken padlocks, blood spatter, skid marks, firearms) directly in 3D coordinate space. |
+| **Interactive 3D Evidence Markers** | Inspect markers and props placed in the bundled scenario data. |
 | **Tactical Camera Controls** | Switch between **Cinematic Director View**, **Tactical 45°**, **Overhead Satellite Grid**, and **Point-of-Impact Focus**. |
-| **High-Precision Time Scrubbing** | Interactive 0.0s to 10.0s forensic timeline slider with playback speeds from 0.25x to 2.0x. |
+| **Timeline Controls** | Scrub and play the selected scenario timeline; available events and playback controls are scenario-defined. |
 
 ### Built-in Case Benchmark Scenarios:
-1. **`case_001_delhi_tpoint`**: Shankar Road T-Point road traffic collision & hit-and-run (BNS 281, BNS 125, MVA 184/134).
-2. **`case_002_karol_bagh_burglary`**: Rishi Apartments Flat 302 daytime break-in and ₹18.45 Lakh jewellery burglary (BNS 305, BNS 329, BNS 324).
-3. **`case_003_indoor_shooting`**: Enclosed residential ballistics and murder over property dispute (BNS 103(1), BNS 61, BNS 238).
+1. **Delhi T-point collision** (`delhiAccidentScene.js`)
+2. **Karol Bagh burglary** (`karolBaghBurglaryScene.js`)
+3. **Indoor shooting** (`indoorShootingScene.js`)
 
 ---
 
@@ -125,21 +121,21 @@ The simulation engine (`frontend/src/simulation/`) translates investigation meas
 | Stage | Name | Input ➔ Output | Function |
 | :---: | :--- | :--- | :--- |
 | **1** | **Intake** | Files ➔ `SourceDocument`, `UploadManifest` | Enforces size limits, validates magic bytes, computes SHA-256 hashes, classifies document types. |
-| **2** | **OCR** | `SourceDocument` ➔ `OCRResult` | Multimodal OCR via Gemini 2.0 Flash; provides page-level text, confidence, token usage, and resume caching. |
-| **3** | **Parsing** | `OCRResult` ➔ `ParsedDocument` | 13 specialized Pydantic schema parsers (FIR, Panchnama, Seizure Memo, Postmortem, etc.). |
+| **2** | **OCR** | `SourceDocument` ➔ `OCRResult` | Extracts text from digital PDFs locally when possible; otherwise uses Gemini for supported PDFs and images. Stores page-level text and available confidence/usage metadata, with resume caching. |
+| **3** | **Parsing** | `OCRResult` ➔ `ParsedDocument` | Registry-selected Pydantic parsers for supported document types, with an unknown-document fallback. |
 | **4** | **Knowledge Graph** | Parsed Docs ➔ `InvestigationKnowledgeGraph` | Projects documents into an entity-relationship graph with deterministic node IDs and provenance edges. |
 | **5** | **Canonicalization** | Graph ➔ `CanonicalInvestigation` | Merges entity identities, builds a unified chronological timeline, and logs conflicting facts into a registry. |
 | **6** | **Validation** | Canonical Model ➔ `ValidationReport` | Audits completeness and evidence support; flags disposition (`draft_allowed`, `review_required`, `final_blocked`). |
-| **7** | **Case Context** | Investigation ➔ `CaseContext` | Assembles a compact, high-confidence projection containing all evidence needed for prosecution. |
+| **7** | **Case Context** | Investigation ➔ `CaseContext` | Assembles a compact evidence-backed projection for downstream findings and review. |
 | **8** | **Legal Reasoning** | Context ➔ `LegalFindings` | Evaluates legal ingredients against BNS reference data; records status (`supported`, `insufficient`, `conflicted`). |
-| **9** | **Charge Sheet & PDF**| Findings ➔ `ChargeSheetData` ➔ PDF | Formats Form IF5 fields, executes schema validation, and renders a court-ready ReportLab vector PDF. |
+| **9** | **Charge Sheet & PDF**| Findings ➔ `ChargeSheetData` ➔ PDF | Drafts Form IF5-style fields, validates the schema, and renders a ReportLab PDF for review. |
 
 ---
 
 ## 🚀 Quickstart Guide
 
 ### Prerequisites
-- **Python**: 3.12 or newer
+- **Python**: 3.12 recommended (Pydantic v2 is required)
 - **Node.js**: 18.0 or newer (npm 9+)
 - **Google Gemini API Key**: [Get an API key](https://aistudio.google.com/)
 
@@ -152,15 +148,14 @@ git clone https://github.com/NishadShirodkar/Major_Project_2nd_repo.git
 cd Major_Project_2nd_repo
 ```
 
-Create and configure your `backend/.env` file:
+Create `backend/.env` for live Gemini-backed OCR and parsing:
 ```ini
 # backend/.env
 GEMINI_API_KEY=your_gemini_api_key_here
-GOOGLE_API_KEY=your_gemini_api_key_here
-LLM_PROVIDER=gemini
-GEMINI_MODEL=gemini-2.0-flash
+GEMINI_MODEL=gemini-flash-latest
 OUTPUT_DIR=output
 ```
+Without a key, run processing in mock mode by setting `BYOMKESH_MOCK_LLM=1` in `backend/.env` or passing `{"mock_llm": true}` to the process endpoint. Live processing sends documents that require OCR and parsed text to Google's Gemini service; configure and handle case data according to your organization's policies.
 
 Create and configure your `frontend/.env` file:
 ```ini
@@ -175,17 +170,19 @@ VITE_API_BASE_URL=http://127.0.0.1:8000
 ```bash
 cd backend
 
-# Create and activate a virtual environment
-python3.12 -m venv .venv
-source .venv/bin/activate
+# Create and activate a virtual environment (PowerShell)
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Start the FastAPI service with Uvicorn
-PYTHONPATH=. uvicorn src.api.app:app --host 127.0.0.1 --port 8000 --reload
+$env:PYTHONPATH = "."
+python -m uvicorn src.api.app:app --host 127.0.0.1 --port 8000 --reload
 ```
 *Backend API will be live at `http://127.0.0.1:8000` (Swagger docs: `/docs`).*
+On macOS/Linux, activate with `source .venv/bin/activate` and start with `PYTHONPATH=. python -m uvicorn src.api.app:app --host 127.0.0.1 --port 8000 --reload`.
 
 ---
 
@@ -229,7 +226,7 @@ The backend exposes a REST API adhering to OpenAPI 3.1 specifications:
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/health` | Basic service liveness probe. |
-| `GET` | `/ready` | Deep readiness check (verifies storage root, BNS dataset, and Gemini configuration). |
+| `GET` | `/ready` | Checks storage and the BNS reference dataset; reports whether a Gemini key is configured. |
 
 ### Cases & Uploads
 | Method | Endpoint | Description |
@@ -237,8 +234,9 @@ The backend exposes a REST API adhering to OpenAPI 3.1 specifications:
 | `GET` | `/api/v1/cases` | List all investigation cases with status summaries. |
 | `POST` | `/api/v1/cases` | Create a new case file. |
 | `GET` | `/api/v1/cases/{case_id}` | Retrieve case details, uploaded documents, and current pipeline stage. |
-| `POST` | `/api/v1/cases/{case_id}/upload` | Upload case documents (PDF, JPEG, PNG). |
+| `POST` | `/api/v1/cases/{case_id}/documents` | Upload one or more documents; PDF, JPEG, and PNG are supported by the OCR pipeline. |
 | `POST` | `/api/v1/cases/{case_id}/process` | Trigger the 9-stage pipeline as an asynchronous background job. |
+| `DELETE` | `/api/v1/cases/{case_id}` | Delete a case workspace and its stored files/artifacts. |
 
 ### Jobs & Progress
 | Method | Endpoint | Description |
@@ -248,11 +246,19 @@ The backend exposes a REST API adhering to OpenAPI 3.1 specifications:
 ### Artifacts & Review
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/v1/cases/{case_id}/artifacts/{artifact_type}` | Retrieve stage artifacts (`manifest`, `ocr`, `graph`, `validation`, `chargesheet`). |
-| `GET` | `/api/v1/cases/{case_id}/artifacts/chargesheet.pdf` | Download the official generated Form IF5 Charge-Sheet PDF. |
+| `GET` | `/api/v1/cases/{case_id}/artifacts` | List available artifacts. |
+| `GET` | `/api/v1/cases/{case_id}/artifacts/content/{artifact_name}` | Retrieve parsed JSON content for an available artifact. |
+| `GET` | `/api/v1/cases/{case_id}/artifacts/chargesheet.pdf` | Download the draft charge-sheet PDF. |
+| `GET` | `/api/v1/cases/{case_id}/artifacts/chargesheet_final.pdf` | Download the finalized PDF when available. |
 | `GET` | `/api/v1/cases/{case_id}/review` | Fetch current charge-sheet data, provenance citations, and review status. |
 | `POST` | `/api/v1/cases/{case_id}/review/corrections` | Submit field corrections and auditor observations. |
-| `POST` | `/api/v1/cases/{case_id}/review/decision` | Record judicial review decision (`APPROVE` or `FINALIZE`). |
+| `POST` | `/api/v1/cases/{case_id}/review/notes` | Add a review note. |
+| `POST` | `/api/v1/cases/{case_id}/review/decision` | Record an approve, reject, revision-request, or finalize decision, subject to workflow guards. |
+| `GET` | `/api/v1/cases/{case_id}/review/history` | Retrieve correction and decision history. |
+| `GET` | `/api/v1/cases/{case_id}/review/retrieval?query=...` | Search case-isolated document passages. |
+| `POST` | `/api/v1/auth/login` | Authenticate using one of the demo officer accounts defined in the backend. |
+| `GET` | `/api/v1/auth/me` | Validate an in-memory session token. |
+| `POST` | `/api/v1/auth/logout` | Revoke a session token. |
 
 ---
 
@@ -266,7 +272,7 @@ Major_Project_2nd_repo/
 │   │   │   ├── app.py           # Application factory & middleware
 │   │   │   └── routers/         # cases, jobs, artifacts, review, auth, health
 │   │   ├── intake/              # File validation, SHA-256 fingerprinting, classification
-│   │   ├── extraction/          # Gemini 2.0 Flash Multimodal OCR & resume caching
+│   │   ├── extraction/          # Local PDF text extraction, Gemini OCR & resume caching
 │   │   ├── parsers/             # Typed Pydantic schema parsers for legal documents
 │   │   ├── knowledge_graph/     # Graph models, entity resolver, deterministic builder
 │   │   ├── normalization/       # Canonical investigation & conflict detector
@@ -308,8 +314,8 @@ Major_Project_2nd_repo/
 
 ## ⚖️ Legal & Ethical Compliance Note
 
-* **Advisory Role:** BYOMKESH AI is strictly an **investigative decision-support system**. It compiles provenance-backed legal drafts, audits evidence completeness, and reconstructs physical topologies. It does **not** replace the statutory discretion or judicial authority of the Investigating Officer, Public Prosecutor, or Judge.
-* **Data Sovereignty:** Case documents and extracted entities remain locally isolated within the specified storage root (`OUTPUT_DIR`). No case data is utilized for external model training.
+* **Advisory Role:** BYOMKESH AI is an investigative decision-support prototype. Generated legal findings and charge-sheet PDFs are drafts that require qualified human review; they do not replace the statutory discretion or judicial authority of the Investigating Officer, Public Prosecutor, or Judge.
+* **Data Handling:** Uploaded files and artifacts are stored under the configured local storage root (`OUTPUT_DIR`). When live Gemini OCR/parsing is used, relevant document content is transmitted to Google's API. Review the provider's current terms and your organization's data-handling requirements before using sensitive case material.
 
 ---
 
