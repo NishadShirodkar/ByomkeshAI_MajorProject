@@ -4,6 +4,7 @@ import time
 import json
 from pathlib import Path
 
+from ..contradictions import ContradictionDetector
 from ..intake.storage_layout import CaseStorageLayout
 from ..rendering.if5_renderer import IF5Renderer
 from ..review.review_service import ReviewService
@@ -12,6 +13,7 @@ from ..workflow.stage import WorkflowStage
 from .chargesheet_artifacts import ChargeSheetArtifactWriter
 from .chargesheet_populator import ChargeSheetPopulator
 from .chargesheet_validator import ChargeSheetValidator
+from .form_if5_schema import ChargeSheetReviewItem
 
 
 class ChargeSheetStage(WorkflowStage):
@@ -24,6 +26,7 @@ class ChargeSheetStage(WorkflowStage):
         self.artifact_writer = ChargeSheetArtifactWriter(storage_root)
         self.renderer = IF5Renderer()
         self.review_service = ReviewService()
+        self.contradiction_detector = ContradictionDetector()
 
     def can_run(self, context: WorkflowContext) -> bool:
         return context.case_context is not None and context.legal_findings is not None and context.chargesheet_data is None
@@ -33,6 +36,28 @@ class ChargeSheetStage(WorkflowStage):
             raise ValueError("Charge-sheet generation requires CaseContext and LegalFindings")
         started = time.perf_counter()
         data = self.populator.populate(context.case_context, context.legal_findings)
+        contradictions = self.contradiction_detector.detect(item.value for item in context.parsed_documents)
+        if contradictions:
+            data = data.model_copy(
+                update={
+                    "conflicts": data.conflicts
+                    + tuple(
+                        ChargeSheetReviewItem(
+                            category="cross_document_check",
+                            description=f"[{item.severity.value.upper()}] {item.summary}",
+                            source_references=item.source_references,
+                        )
+                        for item in contradictions
+                    ),
+                    "contradictions": tuple(
+                        {
+                            **item.model_dump(mode="json"),
+                            "source_references": [ref.model_dump(mode="json") for ref in item.source_references],
+                        }
+                        for item in contradictions
+                    ),
+                }
+            )
         validation = self.validator.validate(data)
         if validation.errors:
             raise ValueError("; ".join(validation.errors))

@@ -53,9 +53,9 @@ class ValidationIssue(DomainModel):
 class ValidationRules(DomainModel):
     """Case-specific policy; defaults avoid assuming every case has every document."""
 
-    require_fir_number: bool = False
-    require_police_station: bool = False
-    require_occurrence_details: bool = False
+    require_fir_number: bool = True
+    require_police_station: bool = True
+    require_occurrence_details: bool = True
     missing_document_severity: IssueSeverity = IssueSeverity.WARNING
     missing_required_severity: IssueSeverity = IssueSeverity.ERROR
     low_confidence_threshold: float = Field(default=0.4, ge=0, le=1)

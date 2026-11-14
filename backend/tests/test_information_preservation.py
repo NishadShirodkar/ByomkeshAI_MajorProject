@@ -24,7 +24,7 @@ class InformationPreservationTests(TestCase):
     def _case(self, *, complainant: str, accused: str, location: str, section: str):
         case_id, fir_id, witness_id, medical_id, seizure_id, diary_id, fsl_id = (uuid4() for _ in range(7))
         documents = (
-            FIR(document_id=fir_id, ocr_text_sha256="a" * 64, parse_metadata=parsed_metadata(), fir_number=f"F-{section}", complainant_name=complainant, accused_names=(accused,), victim_names=(complainant,), occurrence_datetime=datetime(2026, 2, 3, 10, tzinfo=timezone.utc), occurrence_location=location, reported_sections=(section,), narrative_text=f"Incident recorded at {location}."),
+            FIR(document_id=fir_id, ocr_text_sha256="a" * 64, parse_metadata=parsed_metadata(), fir_number=f"F-{section}", police_station="Central PS", complainant_name=complainant, accused_names=(accused,), victim_names=(complainant,), occurrence_datetime=datetime(2026, 2, 3, 10, tzinfo=timezone.utc), occurrence_location=location, reported_sections=(section,), narrative_text=f"Incident recorded at {location}."),
             WitnessStatement(document_id=witness_id, ocr_text_sha256="b" * 64, parse_metadata=parsed_metadata(), witness_name=complainant, statement_text="Observed the incident."),
             MedicalReport(document_id=medical_id, ocr_text_sha256="c" * 64, parse_metadata=parsed_metadata(), patient_name=complainant, doctor_name="Dr Example", observations=("Documented injury",)),
             SeizureMemo(document_id=seizure_id, ocr_text_sha256="d" * 64, parse_metadata=parsed_metadata(), seizure_location=location, seized_items=(SeizureItem(description="Recorded item", exhibit_mark="EX-1"),), prepared_by="Officer Example"),

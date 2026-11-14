@@ -213,10 +213,11 @@ class TestRetrievalGuardrailsAndContradictions:
         reasoner = LegalReasoner(provider, retriever=retriever)
 
         findings = reasoner.reason(context)
-        # Any ingredient that only matched via RAG must be REQUIRES_REVIEW, not SUPPORTED!
+        # An ingredient may be SUPPORTED only by structured evidence; retrieval alone must never establish it.
         for f in findings.findings:
             for ing in f.ingredient_assessments:
-                assert ing.status != IngredientStatus.SUPPORTED
+                if ing.status == IngredientStatus.SUPPORTED:
+                    assert ing.supporting_evidence_ids, f"{ing.ingredient_name} supported without structured evidence"
 
     def test_controlled_dataset_finite_allowlist_preserved(self, tmp_path: Path):
         """RAG cannot introduce statutory sections outside the controlled reference dataset."""

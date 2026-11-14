@@ -78,7 +78,7 @@ class EndToEndPipelineTests(TestCase):
             self.assertTrue(result.report.successful)
             self.assertEqual(tuple(record.status for record in result.report.stage_records), (StageStatus.COMPLETED,) * len(STAGE_ORDER))
             self.assertIsNotNone(result.context.chargesheet_data)
-            self.assertEqual(result.context.validation_report.disposition, ValidationDisposition.DRAFT_ALLOWED)
+            self.assertEqual(result.context.validation_report.disposition, ValidationDisposition.REVIEW_REQUIRED)  # fixture lacks FIR no., station, timeline
             self.assertTrue(any(artifact.name == "chargesheet_draft" for artifact in result.context.generated_artifacts))
             self.assertTrue(all((root / artifact.storage_key).is_file() for artifact in result.context.generated_artifacts))
 

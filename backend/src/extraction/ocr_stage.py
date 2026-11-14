@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 from uuid import UUID
 
-from ..domain.documents import ExtractionState, ValidationStatus
+from ..domain.documents import OPTIONAL_DOCUMENT_TYPES, ExtractionState, SourceDocument, ValidationStatus
 from ..intake.checksum import calculate_sha256
 from ..intake.storage_layout import CaseStorageLayout
 from ..workflow.context import ContextItem, WorkflowContext
@@ -80,6 +80,13 @@ class OCRStage(WorkflowStage):
         if attempted_count > 0 and new_results_count == 0:
             first_err = failed_documents[0][1] if failed_documents else "Unknown extraction failure"
             raise OCRProviderError(f"All {attempted_count} candidate document extractions failed: {first_err}")
+
+        core_failures = [(doc, err) for doc, err in failed_documents if doc.detected_type not in OPTIONAL_DOCUMENT_TYPES]
+        if core_failures:
+            names = ", ".join(f"{doc.original_filename} ({err})" for doc, err in core_failures)
+            raise OCRProviderError(
+                f"Extraction failed for {len(core_failures)} core document(s); the chargesheet would be incomplete: {names}"
+            )
 
         warnings = [f"Extraction failed for document {doc.id} ({doc.original_filename}): {err}" for doc, err in failed_documents]
         return context.with_updates(

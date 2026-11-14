@@ -20,6 +20,8 @@ from .routers import (
     health_router,
     jobs_router,
     review_router,
+    sources_router,
+    verification_router,
 )
 
 logger = logging.getLogger("byomkesh.api")
@@ -107,6 +109,8 @@ def create_app() -> FastAPI:
     application.include_router(jobs_router)
     application.include_router(artifacts_router)
     application.include_router(review_router)
+    application.include_router(sources_router)
+    application.include_router(verification_router)
 
     return application
 

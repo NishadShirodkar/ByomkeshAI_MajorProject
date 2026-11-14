@@ -43,6 +43,8 @@ class IngredientAssessment(DomainModel):
     supporting_evidence_ids: tuple[str, ...] = ()
     reasoning: str
     retrieved_passages: tuple[RetrievedPassage, ...] = ()
+    confidence: float | None = Field(default=None, ge=0, le=1)
+    evidence_quote: str | None = None
 
 
 class LegalFinding(DomainModel):
@@ -59,6 +61,12 @@ class LegalFinding(DomainModel):
     missing_evidence: tuple[str, ...] = ()
     reasoning_summary: str | None = None
     review_warnings: tuple[str, ...] = ()
+    punishment: str | None = None
+    cognizable: bool | None = None
+    bailable: bool | None = None
+    triable_by: str | None = None
+    court_readiness: float | None = Field(default=None, ge=0, le=1)
+    evidence_gaps: tuple[str, ...] = ()
     evidence_strength: EvidenceStrength
     confidence: float = Field(ge=0, le=1)
     status: LegalFindingStatus

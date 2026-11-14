@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 from uuid import UUID
 
-from ..domain.documents import ClassificationStatus, DocumentType, ExtractionState, ParsingState
+from ..domain.documents import OPTIONAL_DOCUMENT_TYPES, ClassificationStatus, DocumentType, ExtractionState, ParsingState
 from ..extraction.ocr_result import OCRResult
 from ..intake.document_classifier import DeterministicDocumentClassifier
 from ..intake.storage_layout import CaseStorageLayout
@@ -152,6 +152,15 @@ class ParserStage(WorkflowStage):
             raise ParserValidationError(
                 f"All {candidates_to_parse} candidate document(s) failed parsing: {'; '.join(warnings)}"
             )
+        failed_core = [
+            doc for doc in updated_documents
+            if doc.parsing_state == ParsingState.FAILED and doc.detected_type not in OPTIONAL_DOCUMENT_TYPES
+        ]
+        if failed_core:
+            raise ParserValidationError(
+                f"Parsing failed for {len(failed_core)} core document(s); the chargesheet would be incomplete: "
+                + "; ".join(w for w in warnings if w.startswith("Parsing failed"))
+            )
 
         return context.with_updates(
             uploaded_documents=tuple(updated_documents),
@@ -162,7 +171,7 @@ class ParserStage(WorkflowStage):
                     key=self.name,
                     value={
                         "parse_duration_ms": (time.perf_counter() - started) * 1000,
-                        "validation_success": True,
+                        "validation_success": not any(w.startswith("Parsing failed") for w in warnings),
                         "retry_count": retry_count,
                         "confidence": (sum(confidence_values) / len(confidence_values) if confidence_values else None),
                         "warnings": tuple(warnings),

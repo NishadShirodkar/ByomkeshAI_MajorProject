@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import { reviewService } from "../services/reviewService.js";
 import { artifactService } from "../services/artifactService.js";
 import { LoadingState } from "./LoadingState.jsx";
+import SourceViewer from "./SourceViewer.jsx";
+import { verificationService } from "../services/verificationService.js";
+
+const ROW_GROUPS = [
+  ["complainants", "Complainants"],
+  ["victims", "Victims"],
+  ["accused", "Accused"],
+  ["witnesses", "Witnesses"],
+  ["timeline", "Timeline"],
+  ["documentary_evidence", "Documentary Evidence"],
+  ["material_evidence", "Material Evidence"],
+];
 
 export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus, onLaunchSimulation }) {
   const [reviewData, setReviewData] = useState(null);
@@ -34,6 +46,48 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
   const [noteText, setNoteText] = useState("");
   const [decisionComments, setDecisionComments] = useState("");
   const [rejectionReason, setRejectionReason] = useState("");
+  const [sourceView, setSourceView] = useState(null); // { references, fieldText, title }
+  const [verification, setVerification] = useState(null);
+  const [verificationError, setVerificationError] = useState(null);
+  const [copyResult, setCopyResult] = useState(null);
+  const [isCheckingCopy, setIsCheckingCopy] = useState(false);
+
+  const checkCopy = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setIsCheckingCopy(true);
+    setCopyResult(null);
+    try {
+      setCopyResult({ name: file.name, ...(await verificationService.verifyCopy(caseId, file)) });
+    } catch (err) {
+      setCopyResult({ name: file.name, error: err.message || "Could not verify this file." });
+    } finally {
+      setIsCheckingCopy(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!reviewData?.is_finalized) {
+      setVerification(null);
+      return undefined;
+    }
+    let cancelled = false;
+    verificationService
+      .verify(caseId)
+      .then((result) => {
+        if (!cancelled) {
+          setVerification(result);
+          setVerificationError(null);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setVerificationError(err.message || "Verification is unavailable.");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [caseId, reviewData?.is_finalized, reviewData?.data_version]);
 
   const handleSearchEvidence = async (e) => {
     if (e) e.preventDefault();
@@ -239,11 +293,26 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
     return <span className="badge badge-extracted">EXTRACTED</span>;
   };
 
-  const renderFieldValue = (field) => {
+  const renderFieldValue = (field, title) => {
     if (!field || field.status === "unavailable" || !field.value) {
       return <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>[Not Available in Investigation Records]</span>;
     }
-    return field.value;
+    const references = field.source_references || [];
+    if (references.length === 0) return field.value;
+    return (
+      <>
+        {field.value}{" "}
+        <button
+          type="button"
+          className="btn btn-outline btn-sm source-link-btn"
+          style={{ marginLeft: "6px", padding: "1px 8px", fontSize: "11px", verticalAlign: "middle" }}
+          title="Show where this appears in the original document"
+          onClick={() => setSourceView({ references, fieldText: field.value, title })}
+        >
+          📄 Source{references.length > 1 ? ` (${references.length})` : ""}
+        </button>
+      </>
+    );
   };
 
   return (
@@ -637,6 +706,95 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
         </form>
       )}
 
+      {isFinalized && (verification || verificationError) && (
+        <div
+          id="verification-panel"
+          className="card"
+          style={{
+            padding: "16px 20px",
+            borderLeft: `4px solid ${verification?.verified ? "var(--color-success)" : "var(--color-danger)"}`,
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+            <div>
+              <div style={{ fontSize: "14px", fontWeight: "700", color: verification?.verified ? "var(--color-success)" : "var(--color-danger)" }}>
+                {verification
+                  ? verification.verified
+                    ? "🔐 Digitally sealed and verified"
+                    : "⛔ Verification failed. Do not rely on this document."
+                  : "Verification unavailable"}
+              </div>
+              {verification && (
+                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
+                  Signed {verification.signed_at ? new Date(verification.signed_at).toLocaleString() : ""} by {verification.signer}
+                </div>
+              )}
+              {verificationError && <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>{verificationError}</div>}
+            </div>
+            <a className="btn btn-outline btn-sm" href={verificationService.publicPageUrl(caseId)} target="_blank" rel="noreferrer">
+              Open public verification page
+            </a>
+          </div>
+          {verification?.embedded_signature && (
+            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "10px" }} id="embedded-signature-chips">
+              <span className={`badge ${verification.embedded_signature.present ? "badge-success" : "badge-final-blocked"}`}>
+                {verification.embedded_signature.present ? "PDF SIGNATURE EMBEDDED" : "NO PDF SIGNATURE"}
+              </span>
+              {verification.embedded_signature.present && (
+                <>
+                  <span className={`badge ${verification.embedded_signature.intact ? "badge-success" : "badge-final-blocked"}`}>
+                    {verification.embedded_signature.intact ? "CONTENT UNALTERED" : "CONTENT ALTERED"}
+                  </span>
+                  <span className={`badge ${verification.embedded_signature.covers_entire_file ? "badge-success" : "badge-final-blocked"}`}>
+                    {verification.embedded_signature.covers_entire_file ? "COVERS ENTIRE FILE" : "PARTIAL COVERAGE"}
+                  </span>
+                </>
+              )}
+              <span className="badge badge-neutral">OPEN THE PDF IN ANY READER TO SEE THE SIGNATURE PANEL</span>
+            </div>
+          )}
+          {verification?.checks?.length > 0 && (
+            <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0", fontSize: "12px" }}>
+              {verification.checks.map((check) => (
+                <li key={check.name} style={{ padding: "3px 0", color: check.passed ? "var(--text-secondary)" : "var(--color-danger)" }}>
+                  {check.passed ? "✓" : "✗"} <strong>{check.name}:</strong> {check.detail}
+                </li>
+              ))}
+            </ul>
+          )}
+          <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid var(--border-subtle)" }} id="check-copy-block">
+            <div style={{ fontSize: "12px", fontWeight: "700", marginBottom: "4px" }}>Check a copy you were given</div>
+            <div style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
+              Choose a PDF. If even one byte differs from the signed original, verification fails.
+            </div>
+            <input type="file" accept="application/pdf" onChange={checkCopy} disabled={isCheckingCopy} id="check-copy-input" />
+            {isCheckingCopy && <span style={{ marginLeft: "8px", fontSize: "12px" }}>Checking…</span>}
+            {copyResult && (
+              <div
+                id="check-copy-result"
+                style={{ marginTop: "8px", fontSize: "12px", color: copyResult.verified ? "var(--color-success)" : "var(--color-danger)", fontWeight: "700" }}
+              >
+                {copyResult.error
+                  ? `✗ ${copyResult.error}`
+                  : copyResult.verified
+                    ? `✓ ${copyResult.name} is the authentic signed document.`
+                    : `✗ ${copyResult.name} is NOT authentic: ${(copyResult.checks || []).filter((c) => !c.passed).map((c) => c.name).join(", ")}.`}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {sourceView && (
+        <SourceViewer
+          caseId={caseId}
+          references={sourceView.references}
+          fieldText={sourceView.fieldText}
+          title={sourceView.title}
+          onClose={() => setSourceView(null)}
+        />
+      )}
+
       {/* Main Charge-Sheet Content Display */}
       {cs && (
         <div className="card">
@@ -677,6 +835,22 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
               </div>
             </div>
 
+            {/* Parties & Evidence (each row traceable to its source page) */}
+            {ROW_GROUPS.some(([key]) => cs[key]?.length > 0) && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "14px" }} id="parties-evidence-section">
+                {ROW_GROUPS.filter(([key]) => cs[key]?.length > 0).map(([key, label]) => (
+                  <div key={key} style={{ background: "var(--bg-base)", padding: "12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+                    <div style={{ fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "6px" }}>{label}</div>
+                    {cs[key].map((row) => (
+                      <div key={`${key}-${row.serial}`} style={{ fontSize: "13px", padding: "3px 0", borderTop: row.serial > 1 ? "1px solid var(--border-subtle)" : "none" }}>
+                        {row.serial}. {renderFieldValue(row.description, label)}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Case Summary */}
             <div style={{ background: "var(--bg-base)", padding: "14px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
@@ -705,6 +879,56 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
                 </div>
               )}
             </div>
+
+            {/* Cross-document contradictions (side-by-side, traceable to source) */}
+            {cs.contradictions?.length > 0 && (
+              <div
+                id="contradictions-section"
+                style={{ background: "var(--bg-base)", padding: "16px", borderRadius: "var(--radius-sm)", border: "1px solid var(--color-warning-border)" }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--color-warning)" }}>
+                    ⚡ CROSS-DOCUMENT CONTRADICTIONS
+                  </span>
+                  <span className="badge badge-review-required">{cs.contradictions.length} FOUND</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {cs.contradictions.map((item, cIdx) => (
+                    <div key={item.contradiction_id || cIdx} className="contradiction-card" style={{ background: "var(--bg-surface)", padding: "12px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-subtle)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", flexWrap: "wrap", marginBottom: "6px" }}>
+                        <strong style={{ fontSize: "13px" }}>{item.summary}</strong>
+                        <span className={`badge ${item.severity === "high" ? "badge-final-blocked" : "badge-review-required"}`}>
+                          {String(item.kind).replace(/_/g, " ").toUpperCase()} · {String(item.severity).toUpperCase()}
+                        </span>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "10px" }}>
+                        {(item.sides || []).map((side, sIdx) => (
+                          <div key={sIdx} style={{ background: "var(--bg-base)", padding: "10px", borderRadius: "4px", borderLeft: `3px solid ${sIdx === 0 ? "var(--color-accent)" : "var(--color-warning)"}` }}>
+                            <div style={{ fontSize: "10px", fontWeight: "700", color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "4px" }}>
+                              {side.document_label}
+                            </div>
+                            <div style={{ fontSize: "12px", fontStyle: "italic", color: "var(--text-primary)" }}>“{side.text}”</div>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm source-link-btn"
+                              style={{ marginTop: "6px", padding: "1px 8px", fontSize: "11px" }}
+                              onClick={() => setSourceView({ references: [{ document_id: side.document_id, excerpt: side.text }], fieldText: side.value || side.text, title: side.document_label })}
+                            >
+                              📄 View in source
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      {item.why_it_matters && (
+                        <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "8px" }}>
+                          <strong>Why it matters:</strong> {item.why_it_matters}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Statutory Legal Reasoning & Ingredients Breakdown */}
             <div style={{ background: "var(--bg-base)", padding: "16px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-strong)" }}>
@@ -749,6 +973,48 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
                         </div>
                       </div>
 
+                      {typeof finding.court_readiness === "number" && (
+                        <div style={{ marginBottom: "10px" }} className="court-readiness">
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", marginBottom: "3px" }}>
+                            <span style={{ fontWeight: "700", color: "var(--text-muted)", textTransform: "uppercase" }}>Court readiness</span>
+                            <span style={{ fontWeight: "700" }}>{Math.round(finding.court_readiness * 100)}%</span>
+                          </div>
+                          <div style={{ height: "6px", background: "var(--bg-base)", borderRadius: "3px", overflow: "hidden" }}>
+                            <div
+                              style={{
+                                width: `${Math.round(finding.court_readiness * 100)}%`,
+                                height: "100%",
+                                background: finding.court_readiness >= 0.8 ? "var(--color-success)" : finding.court_readiness >= 0.4 ? "var(--color-warning)" : "var(--color-danger)",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {(finding.punishment || finding.cognizable !== null && finding.cognizable !== undefined || finding.triable_by) && (
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center", marginBottom: "10px", fontSize: "11px" }}>
+                          {finding.cognizable !== null && finding.cognizable !== undefined && (
+                            <span className="badge badge-neutral">{finding.cognizable ? "COGNIZABLE" : "NON-COGNIZABLE"}</span>
+                          )}
+                          {finding.bailable !== null && finding.bailable !== undefined && (
+                            <span className="badge badge-neutral">{finding.bailable ? "BAILABLE" : "NON-BAILABLE"}</span>
+                          )}
+                          {finding.triable_by && <span className="badge badge-neutral">TRIABLE BY: {String(finding.triable_by).toUpperCase()}</span>}
+                          {finding.punishment && <span style={{ color: "var(--text-secondary)" }}>{finding.punishment}</span>}
+                        </div>
+                      )}
+
+                      {finding.evidence_gaps?.length > 0 && (
+                        <div style={{ marginBottom: "10px", padding: "8px 10px", background: "var(--color-warning-bg)", border: "1px solid var(--color-warning-border)", borderRadius: "var(--radius-sm)", fontSize: "12px" }} className="evidence-gaps">
+                          <div style={{ fontWeight: "700", marginBottom: "4px", color: "var(--color-warning)" }}>
+                            ⚠ Gaps a defence lawyer could attack ({finding.evidence_gaps.length})
+                          </div>
+                          <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--text-secondary)" }}>
+                            {finding.evidence_gaps.map((gap, gIdx) => <li key={gIdx}>{gap}</li>)}
+                          </ul>
+                        </div>
+                      )}
+
                       {finding.reasoning_summary && (
                         <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "10px", lineHeight: "1.5" }}>
                           <strong>Statutory Analysis:</strong> {finding.reasoning_summary}
@@ -763,7 +1029,7 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
                           </div>
                           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                             {finding.ingredient_assessments.map((ing, iIdx) => {
-                              const ingStatus = ing.status || "REQUIRES_REVIEW";
+                              const ingStatus = String(ing.status || "requires_review").toUpperCase();
                               const isSupp = ingStatus === "SUPPORTED";
                               const isNot = ingStatus === "NOT_ESTABLISHED";
                               return (
@@ -784,6 +1050,25 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
                                     </span>
                                   </div>
                                   {ing.reasoning && <div style={{ color: "var(--text-muted)", marginTop: "2px" }}>{ing.reasoning}</div>}
+                                  {ing.evidence_quote && (
+                                    <div style={{ marginTop: "4px", fontSize: "11px", fontStyle: "italic", color: "var(--text-secondary)" }}>
+                                      “{ing.evidence_quote}”
+                                      {typeof ing.confidence === "number" && <span style={{ fontStyle: "normal", color: "var(--text-muted)" }}> · match {(ing.confidence * 100).toFixed(0)}%</span>}
+                                      {isSupp && (finding.supporting_evidence || []).filter((ev) => (ev.value || "").startsWith(ing.evidence_quote.slice(0, 40))).slice(0, 1).map((ev, evIdx) => (
+                                        ev.source_references?.length > 0 && (
+                                          <button
+                                            key={evIdx}
+                                            type="button"
+                                            className="btn btn-outline btn-sm source-link-btn"
+                                            style={{ marginLeft: "6px", padding: "1px 8px", fontSize: "11px", fontStyle: "normal" }}
+                                            onClick={() => setSourceView({ references: ev.source_references, fieldText: ing.evidence_quote, title: ing.ingredient_name })}
+                                          >
+                                            📄 Source
+                                          </button>
+                                        )
+                                      ))}
+                                    </div>
+                                  )}
 
                                   {/* Retrieved Passages Corroboration / Contradiction */}
                                   {ing.retrieved_passages?.length > 0 && (

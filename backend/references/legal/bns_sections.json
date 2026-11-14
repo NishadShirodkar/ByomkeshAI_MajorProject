@@ -22,7 +22,34 @@
         "citation": "The Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023), section 115",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {
+        "hurt": [
+          "hurt",
+          "injur",
+          "bruise",
+          "abrasion",
+          "swelling",
+          "contusion",
+          "laceration"
+        ]
+      },
+      "keywords": [
+        "hurt",
+        "injur",
+        "assault",
+        "beaten",
+        "slap"
+      ],
+      "punishment": "115(2): up to 1 year, or fine up to Rs 10,000, or both.",
+      "cognizable": false,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": "Compoundable by the victim",
+      "expected_documents": [
+        "medical_report",
+        "witness_statement"
+      ]
     },
     {
       "section_id": "6b73b77c-47af-5f57-a411-52b892aae889",
@@ -46,7 +73,42 @@
         "citation": "The Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023), section 281",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {
+        "driving or riding vehicle on a public way": [
+          "driving",
+          "riding",
+          "driven",
+          "vehicle",
+          "pulsar",
+          "activa"
+        ],
+        "manner so rash or negligent as to endanger human life or likely to cause hurt": [
+          "rash",
+          "negligen",
+          "reckless",
+          "red light",
+          "speed"
+        ]
+      },
+      "keywords": [
+        "rash",
+        "negligen",
+        "reckless",
+        "red light",
+        "collision",
+        "accident"
+      ],
+      "punishment": "Up to 6 months, or fine up to Rs 1,000, or both.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "expected_documents": [
+        "vehicle_inspection",
+        "spot_panchnama",
+        "witness_statement"
+      ]
     },
     {
       "section_id": "5a3f3269-e61e-5cb8-a875-d7461fb2f095",
@@ -71,7 +133,47 @@
         "citation": "The Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023), section 106",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {
+        "death of a human being": [
+          "death",
+          "died",
+          "dead",
+          "deceased",
+          "fatal",
+          "succumb"
+        ],
+        "rash or negligent act causing the death": [
+          "rash",
+          "negligen",
+          "reckless",
+          "speed",
+          "collision"
+        ],
+        "act does not amount to culpable homicide": [
+          "accident",
+          "unintention",
+          "no intention"
+        ]
+      },
+      "keywords": [
+        "rash",
+        "negligen",
+        "death",
+        "died",
+        "deceased",
+        "fatal"
+      ],
+      "punishment": "106(1): up to 5 years and fine (up to 2 years for registered medical practitioners); 106(2): up to 10 years and fine for fleeing without reporting.",
+      "cognizable": true,
+      "bailable": null,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "expected_documents": [
+        "postmortem_report",
+        "vehicle_inspection",
+        "spot_panchnama"
+      ]
     },
     {
       "section_id": "b9b70b66-7e16-57cd-85d5-04bc8752f828",
@@ -95,7 +197,41 @@
         "citation": "The Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023), section 125",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {
+        "rash or negligent act": [
+          "rash",
+          "negligen",
+          "reckless",
+          "speed",
+          "red light"
+        ],
+        "endangering human life or personal safety of others": [
+          "endanger",
+          "hurt",
+          "injur",
+          "collision",
+          "crash",
+          "accident"
+        ]
+      },
+      "keywords": [
+        "rash",
+        "negligen",
+        "reckless",
+        "accident",
+        "collision"
+      ],
+      "punishment": "Up to 3 months or fine up to Rs 2,500 (or both); if hurt is caused: up to 6 months or fine up to Rs 5,000; if grievous hurt: up to 3 years or fine up to Rs 10,000.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "expected_documents": [
+        "vehicle_inspection",
+        "spot_panchnama",
+        "witness_statement"
+      ]
     },
     {
       "section_id": "85cd762b-cace-5bd6-aa16-7bb3125e236f",
@@ -119,7 +255,38 @@
         "citation": "The Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023), section 324",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {
+        "intent or knowledge to cause wrongful loss or damage": [
+          "intentional",
+          "deliberately",
+          "wilful",
+          "set fire"
+        ],
+        "destruction or diminishment in value/utility of property": [
+          "damaged",
+          "destroyed",
+          "vandal",
+          "broke",
+          "burnt"
+        ]
+      },
+      "keywords": [
+        "mischief",
+        "vandal",
+        "damaged property",
+        "set fire",
+        "destroyed property"
+      ],
+      "punishment": null,
+      "cognizable": null,
+      "bailable": null,
+      "triable_by": null,
+      "compoundable": null,
+      "expected_documents": [
+        "spot_panchnama",
+        "witness_statement"
+      ]
     },
     {
       "section_id": "5a8d3ce3-873e-5128-b0a7-bb0e384ed474",
@@ -168,6 +335,1647 @@
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20064/1/a2023-47.pdf"
       },
       "version": "bns-2023-2024-07-01"
+    },
+    {
+      "section_id": "38092468-b0be-559f-93a4-1eac8f310c2d",
+      "section_number": "64",
+      "offence_name": "Rape",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 376",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): sexual intercourse or penetration with a woman; against her will or without her consent.",
+      "required_elements": [
+        "sexual intercourse or penetration with a woman",
+        "against her will or without her consent"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 64",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Rigorous imprisonment not less than 10 years, extendable to life, and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Court of Session",
+      "compoundable": null,
+      "keywords": [
+        "rape",
+        "sexual assault",
+        "penetrat"
+      ],
+      "element_cues": {
+        "sexual intercourse or penetration with a woman": [
+          "rape",
+          "penetrat",
+          "sexual assault",
+          "intercourse"
+        ],
+        "against her will or without her consent": [
+          "without consent",
+          "without her consent",
+          "against her will",
+          "non-consensual",
+          "forced",
+          "did not consent"
+        ]
+      },
+      "expected_documents": [
+        "medical_report",
+        "fsl_report",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "df6a73ee-8ffb-550e-a210-9eeb91940470",
+      "section_number": "74",
+      "offence_name": "Assault or criminal force to a woman with intent to outrage her modesty",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 354",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): assault or use of criminal force on a woman; intent or knowledge that it is likely to outrage her modesty.",
+      "required_elements": [
+        "assault or use of criminal force on a woman",
+        "intent or knowledge that it is likely to outrage her modesty"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 74",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment of 1 to 5 years and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "modesty",
+        "molest",
+        "outrage her"
+      ],
+      "element_cues": {
+        "assault or use of criminal force on a woman": [
+          "molest",
+          "groped",
+          "touched her",
+          "assault"
+        ],
+        "intent or knowledge that it is likely to outrage her modesty": [
+          "outrage",
+          "modesty",
+          "inappropriate"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement",
+        "medical_report"
+      ]
+    },
+    {
+      "section_id": "422bd4fe-e2f0-556f-8316-ba1778df7f82",
+      "section_number": "75",
+      "offence_name": "Sexual harassment",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 354A",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): unwelcome physical contact or advances, sexual remarks, or showing pornography against the will of a woman.",
+      "required_elements": [
+        "unwelcome physical contact or advances, sexual remarks, or showing pornography against the will of a woman"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 75",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 3 years, or fine, or both (depending on the limb).",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "sexual harassment",
+        "unwelcome advance",
+        "obscene remark"
+      ],
+      "element_cues": {
+        "unwelcome physical contact or advances, sexual remarks, or showing pornography against the will of a woman": [
+          "unwelcome",
+          "sexual remark",
+          "harass",
+          "pornograph",
+          "touched"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "e686b22f-7278-5d2a-b08b-a2845cb67964",
+      "section_number": "78",
+      "offence_name": "Stalking",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 354D",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): following or repeatedly contacting a woman despite clear disinterest, or monitoring her internet or electronic communication.",
+      "required_elements": [
+        "following or repeatedly contacting a woman despite clear disinterest, or monitoring her internet or electronic communication"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 78",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "First conviction: up to 3 years and fine; subsequent: up to 5 years and fine.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "stalk",
+        "followed her",
+        "repeated calls"
+      ],
+      "element_cues": {
+        "following or repeatedly contacting a woman despite clear disinterest, or monitoring her internet or electronic communication": [
+          "followed her",
+          "stalk",
+          "repeatedly called",
+          "repeated calls",
+          "monitor",
+          "kept following"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "755e43d3-01a7-5157-86e5-85b141577156",
+      "section_number": "79",
+      "offence_name": "Word, gesture or act intended to insult the modesty of a woman",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 509",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): word, gesture or act intended to insult the modesty of a woman.",
+      "required_elements": [
+        "word, gesture or act intended to insult the modesty of a woman"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 79",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 3 years and fine.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "insult her modesty",
+        "lewd remark",
+        "obscene gesture"
+      ],
+      "element_cues": {
+        "word, gesture or act intended to insult the modesty of a woman": [
+          "insult",
+          "obscene gesture",
+          "lewd",
+          "remark"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "1ce8ae12-ce97-53d3-b762-a56607d17c15",
+      "section_number": "80",
+      "offence_name": "Dowry death",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 304B",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): death of a woman by burns, bodily injury or otherwise than under normal circumstances within seven years of marriage; cruelty or harassment by husband or relatives for dowry soon before her death.",
+      "required_elements": [
+        "death of a woman by burns, bodily injury or otherwise than under normal circumstances within seven years of marriage",
+        "cruelty or harassment by husband or relatives for dowry soon before her death"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 80",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment not less than 7 years, extendable to life.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Court of Session",
+      "compoundable": null,
+      "keywords": [
+        "dowry death",
+        "dowry"
+      ],
+      "element_cues": {
+        "death of a woman by burns, bodily injury or otherwise than under normal circumstances within seven years of marriage": [
+          "burn",
+          "unnatural death",
+          "hanging",
+          "within seven years",
+          "within 7 years"
+        ],
+        "cruelty or harassment by husband or relatives for dowry soon before her death": [
+          "dowry",
+          "harass",
+          "cruelty",
+          "tortur"
+        ]
+      },
+      "expected_documents": [
+        "postmortem_report",
+        "witness_statement",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "4dd7202e-d4b4-58f9-b7ca-bd05c0859388",
+      "section_number": "85",
+      "offence_name": "Cruelty by husband or his relatives",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 498A",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): woman subjected to cruelty by her husband or his relative; cruelty includes wilful conduct likely to drive her to suicide or cause grave injury, or harassment for an unlawful demand.",
+      "required_elements": [
+        "woman subjected to cruelty by her husband or his relative",
+        "cruelty includes wilful conduct likely to drive her to suicide or cause grave injury, or harassment for an unlawful demand"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 85",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 3 years and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "cruelty by husband",
+        "dowry",
+        "matrimonial cruelty"
+      ],
+      "element_cues": {
+        "woman subjected to cruelty by her husband or his relative": [
+          "cruelty",
+          "beaten",
+          "tortur",
+          "harass"
+        ],
+        "cruelty includes wilful conduct likely to drive her to suicide or cause grave injury, or harassment for an unlawful demand": [
+          "dowry demand",
+          "unlawful demand",
+          "suicide",
+          "harass"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement",
+        "medical_report"
+      ]
+    },
+    {
+      "section_id": "e55a4b7b-f5e4-5bc5-ae98-756e80bc73b6",
+      "section_number": "103",
+      "offence_name": "Murder",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 302",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): death of a human being; act done with the intention of causing death or bodily injury likely to cause death.",
+      "required_elements": [
+        "death of a human being",
+        "act done with the intention of causing death or bodily injury likely to cause death"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 103",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Death or imprisonment for life, and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Court of Session",
+      "compoundable": null,
+      "keywords": [
+        "murder",
+        "killed",
+        "homicide",
+        "stabbed to death",
+        "shot dead",
+        "deceased"
+      ],
+      "element_cues": {
+        "death of a human being": [
+          "death",
+          "died",
+          "dead",
+          "deceased",
+          "killed",
+          "murder",
+          "homicid"
+        ],
+        "act done with the intention of causing death or bodily injury likely to cause death": [
+          "stabb",
+          "shot",
+          "strangl",
+          "intent to kill",
+          "intention to kill",
+          "weapon",
+          "blow",
+          "assault"
+        ]
+      },
+      "expected_documents": [
+        "postmortem_report",
+        "fsl_report",
+        "seizure_memo",
+        "witness_statement",
+        "spot_panchnama"
+      ]
+    },
+    {
+      "section_id": "b419b4f7-fc9e-5a95-8020-6d54db26f806",
+      "section_number": "105",
+      "offence_name": "Culpable homicide not amounting to murder",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 304",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): death of a human being; act done with the intention or knowledge that it is likely to cause death, not amounting to murder.",
+      "required_elements": [
+        "death of a human being",
+        "act done with the intention or knowledge that it is likely to cause death, not amounting to murder"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 105",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment for life or up to 10 years and fine (first part); up to 10 years or fine or both (second part).",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Court of Session",
+      "compoundable": null,
+      "keywords": [
+        "culpable homicide",
+        "grave and sudden provocation",
+        "sudden fight"
+      ],
+      "element_cues": {
+        "death of a human being": [
+          "death",
+          "died",
+          "dead",
+          "deceased",
+          "killed"
+        ],
+        "act done with the intention or knowledge that it is likely to cause death, not amounting to murder": [
+          "intention",
+          "knowledge",
+          "sudden fight",
+          "provocation",
+          "blow"
+        ]
+      },
+      "expected_documents": [
+        "postmortem_report",
+        "witness_statement",
+        "spot_panchnama"
+      ]
+    },
+    {
+      "section_id": "9bc3379c-017d-5804-8eff-a4c9b1a06019",
+      "section_number": "109",
+      "offence_name": "Attempt to murder",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 307",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): attempt to cause death with the intention or knowledge of murder; act done towards committing murder, such as use of a weapon, firearm or poison.",
+      "required_elements": [
+        "attempt to cause death with the intention or knowledge of murder",
+        "act done towards committing murder, such as use of a weapon, firearm or poison"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 109",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 10 years and fine; imprisonment for life if hurt is caused.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Court of Session",
+      "compoundable": null,
+      "keywords": [
+        "attempt to murder",
+        "tried to kill",
+        "shot at",
+        "stabbed"
+      ],
+      "element_cues": {
+        "attempt to cause death with the intention or knowledge of murder": [
+          "attempt to murder",
+          "tried to kill",
+          "attempted to kill",
+          "intention to kill",
+          "intent to kill",
+          "shot at"
+        ],
+        "act done towards committing murder, such as use of a weapon, firearm or poison": [
+          "weapon",
+          "knife",
+          "firearm",
+          "pistol",
+          "gun",
+          "poison",
+          "stabb",
+          "shot",
+          "injur"
+        ]
+      },
+      "expected_documents": [
+        "medical_report",
+        "seizure_memo",
+        "fsl_report",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "4accd52c-c5dd-50dc-b453-4d39bfa0bbc1",
+      "section_number": "117",
+      "offence_name": "Voluntarily causing grievous hurt",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 325",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): grievous hurt caused, such as fracture, dislocation, permanent disfigurement, loss of a limb, sight or hearing, or a life-endangering injury; act done voluntarily.",
+      "required_elements": [
+        "grievous hurt caused, such as fracture, dislocation, permanent disfigurement, loss of a limb, sight or hearing, or a life-endangering injury",
+        "act done voluntarily"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 117",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "117(2): up to 7 years and fine; higher penalties where permanent disability or vegetative state results.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": "Compoundable with permission of the court",
+      "keywords": [
+        "grievous",
+        "fracture",
+        "permanent disfigurement",
+        "amput"
+      ],
+      "element_cues": {
+        "grievous hurt caused, such as fracture, dislocation, permanent disfigurement, loss of a limb, sight or hearing, or a life-endangering injury": [
+          "grievous",
+          "fracture",
+          "dislocat",
+          "permanent disfigure",
+          "loss of",
+          "amput",
+          "life-threatening"
+        ],
+        "act done voluntarily": [
+          "intentional",
+          "deliberately",
+          "struck",
+          "hit",
+          "attack",
+          "assault"
+        ]
+      },
+      "expected_documents": [
+        "medical_report",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "c66a152c-5515-5738-b134-1e1a6bb4f010",
+      "section_number": "118",
+      "offence_name": "Voluntarily causing hurt or grievous hurt by dangerous weapons or means",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Sections 324, 326",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): hurt or grievous hurt caused; caused by a weapon or instrument likely to cause death, or by fire, poison, acid or other corrosive substance.",
+      "required_elements": [
+        "hurt or grievous hurt caused",
+        "caused by a weapon or instrument likely to cause death, or by fire, poison, acid or other corrosive substance"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 118",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "118(1): up to 3 years, or fine, or both (hurt); 118(2): up to 10 years or life and fine (grievous hurt). Bailability differs by limb.",
+      "cognizable": true,
+      "bailable": null,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "knife",
+        "weapon",
+        "acid",
+        "firearm",
+        "stabbed",
+        "iron rod"
+      ],
+      "element_cues": {
+        "hurt or grievous hurt caused": [
+          "hurt",
+          "injur",
+          "wound",
+          "stab",
+          "cut"
+        ],
+        "caused by a weapon or instrument likely to cause death, or by fire, poison, acid or other corrosive substance": [
+          "knife",
+          "blade",
+          "weapon",
+          "firearm",
+          "gun",
+          "acid",
+          "corrosive",
+          "poison",
+          "iron rod",
+          "axe",
+          "sword"
+        ]
+      },
+      "expected_documents": [
+        "medical_report",
+        "seizure_memo",
+        "fsl_report"
+      ]
+    },
+    {
+      "section_id": "8176cdb4-b42c-54f5-9473-65543f08b7a8",
+      "section_number": "126",
+      "offence_name": "Wrongful restraint",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 341",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): person voluntarily obstructed from proceeding in a direction in which he has a right to proceed.",
+      "required_elements": [
+        "person voluntarily obstructed from proceeding in a direction in which he has a right to proceed"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 126",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "126(2): up to 1 month, or fine up to Rs 5,000, or both.",
+      "cognizable": false,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "wrongful restraint",
+        "blocked his way",
+        "obstructed"
+      ],
+      "element_cues": {
+        "person voluntarily obstructed from proceeding in a direction in which he has a right to proceed": [
+          "obstruct",
+          "blocked",
+          "stopped him",
+          "stopped her",
+          "restrain"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "595611d9-04d5-5431-a58b-29a01f3e78a8",
+      "section_number": "127",
+      "offence_name": "Wrongful confinement",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 342",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): person wrongfully restrained so as to prevent him from proceeding beyond certain limits.",
+      "required_elements": [
+        "person wrongfully restrained so as to prevent him from proceeding beyond certain limits"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 127",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "127(2): up to 1 year, or fine up to Rs 5,000, or both.",
+      "cognizable": null,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "wrongful confinement",
+        "locked in",
+        "held captive",
+        "confined"
+      ],
+      "element_cues": {
+        "person wrongfully restrained so as to prevent him from proceeding beyond certain limits": [
+          "confined",
+          "locked",
+          "held captive",
+          "kept in a room",
+          "illegally detained"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement",
+        "spot_panchnama"
+      ]
+    },
+    {
+      "section_id": "18c6179d-ffd2-5364-8ab3-77fb63f3f945",
+      "section_number": "131",
+      "offence_name": "Assault or criminal force otherwise than on grave provocation",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 352",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): assault or use of criminal force on any person; not done on grave and sudden provocation.",
+      "required_elements": [
+        "assault or use of criminal force on any person",
+        "not done on grave and sudden provocation"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 131",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 3 months, or fine up to Rs 1,000, or both.",
+      "cognizable": false,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "slapped",
+        "pushed",
+        "punched",
+        "assaulted"
+      ],
+      "element_cues": {
+        "assault or use of criminal force on any person": [
+          "slap",
+          "pushed",
+          "punch",
+          "kicked",
+          "assault",
+          "hit"
+        ],
+        "not done on grave and sudden provocation": [
+          "unprovoked",
+          "without provocation"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "ed1f028c-9559-5f5e-9b32-3f66fbef3bff",
+      "section_number": "137",
+      "offence_name": "Kidnapping",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 363",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): taking or enticing a minor or person of unsound mind out of the keeping of the lawful guardian; without the consent of the lawful guardian.",
+      "required_elements": [
+        "taking or enticing a minor or person of unsound mind out of the keeping of the lawful guardian",
+        "without the consent of the lawful guardian"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 137",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "137(2): up to 7 years and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "kidnap",
+        "abduct",
+        "enticed",
+        "missing child"
+      ],
+      "element_cues": {
+        "taking or enticing a minor or person of unsound mind out of the keeping of the lawful guardian": [
+          "kidnap",
+          "abduct",
+          "taken away",
+          "enticed",
+          "missing"
+        ],
+        "without the consent of the lawful guardian": [
+          "without consent",
+          "without the consent",
+          "guardian",
+          "parents",
+          "without their knowledge"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "072f65b4-54e4-5e09-9ae4-53aa3dea7da7",
+      "section_number": "303",
+      "offence_name": "Theft",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 379",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): dishonest intention to take property; movable property taken out of the possession of a person; taken without that person's consent.",
+      "required_elements": [
+        "dishonest intention to take property",
+        "movable property taken out of the possession of a person",
+        "taken without that person's consent"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 303",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "303(2): up to 3 years, or fine, or both; subsequent conviction: rigorous imprisonment 1 to 5 years and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Any Magistrate",
+      "compoundable": "Compoundable by the owner (with court permission in some cases)",
+      "keywords": [
+        "theft",
+        "stolen",
+        "stole",
+        "burglary"
+      ],
+      "element_cues": {
+        "dishonest intention to take property": [
+          "theft",
+          "stole",
+          "stolen",
+          "dishonest",
+          "snatch"
+        ],
+        "movable property taken out of the possession of a person": [
+          "movable",
+          "mobile",
+          "phone",
+          "cash",
+          "jewel",
+          "motorcycle",
+          "vehicle",
+          "wallet",
+          "gold",
+          "laptop",
+          "bag"
+        ],
+        "taken without that person's consent": [
+          "without consent",
+          "without permission",
+          "without his consent",
+          "without her consent",
+          "without the consent",
+          "did not give permission",
+          "did not consent",
+          "no permission",
+          "unauthor"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "seizure_memo",
+        "spot_panchnama",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "c90f24c1-e4cb-530d-901d-5f7eae5da77b",
+      "section_number": "304",
+      "offence_name": "Snatching",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": null,
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): theft committed by suddenly or forcibly seizing or snatching property from a person or his possession.",
+      "required_elements": [
+        "theft committed by suddenly or forcibly seizing or snatching property from a person or his possession"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 304",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 3 years and fine.",
+      "cognizable": true,
+      "bailable": null,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "snatch",
+        "chain snatching",
+        "grabbed her bag"
+      ],
+      "element_cues": {
+        "theft committed by suddenly or forcibly seizing or snatching property from a person or his possession": [
+          "snatch",
+          "grabbed",
+          "fled with",
+          "chain snatching"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement",
+        "cctv_image"
+      ]
+    },
+    {
+      "section_id": "ea3fd3fa-5b59-5e3d-a6cf-00140a296cb0",
+      "section_number": "305",
+      "offence_name": "Theft in a dwelling house, means of transportation or place of worship",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 380",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): theft of property; committed in a dwelling house, a place of worship or a means of transport.",
+      "required_elements": [
+        "theft of property",
+        "committed in a dwelling house, a place of worship or a means of transport"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 305",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 7 years and fine.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "house theft",
+        "theft in house",
+        "temple theft",
+        "stolen from house"
+      ],
+      "element_cues": {
+        "theft of property": [
+          "theft",
+          "stole",
+          "stolen"
+        ],
+        "committed in a dwelling house, a place of worship or a means of transport": [
+          "house",
+          "residence",
+          "temple",
+          "mosque",
+          "church",
+          "dwelling",
+          "bus",
+          "train",
+          "transport"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "seizure_memo",
+        "spot_panchnama",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "22f35077-35d4-54c4-9e62-6c3dfc34a7c3",
+      "section_number": "308",
+      "offence_name": "Extortion",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 384",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): putting a person in fear of injury; dishonestly inducing delivery of property or valuable security.",
+      "required_elements": [
+        "putting a person in fear of injury",
+        "dishonestly inducing delivery of property or valuable security"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 308",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "308(2): up to 3 years, or fine, or both; higher where the threat is of death, grievous hurt or accusation of an offence.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "extort",
+        "ransom",
+        "demanded money"
+      ],
+      "element_cues": {
+        "putting a person in fear of injury": [
+          "threat",
+          "threaten",
+          "fear",
+          "extort"
+        ],
+        "dishonestly inducing delivery of property or valuable security": [
+          "demanded money",
+          "ransom",
+          "handed over",
+          "forced to give",
+          "delivered cash"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "30a022d8-8624-5641-8fb4-c5b4e7446ace",
+      "section_number": "309",
+      "offence_name": "Robbery",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 392",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): theft or extortion; offender causes or attempts to cause death, hurt or wrongful restraint, or fear of them, to commit the theft or carry away the property.",
+      "required_elements": [
+        "theft or extortion",
+        "offender causes or attempts to cause death, hurt or wrongful restraint, or fear of them, to commit the theft or carry away the property"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 309",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "309(4): rigorous imprisonment up to 10 years and fine; up to 14 years if on a highway between sunset and sunrise.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "robbery",
+        "robbed",
+        "looted",
+        "held up",
+        "gunpoint"
+      ],
+      "element_cues": {
+        "theft or extortion": [
+          "robb",
+          "loot",
+          "held up",
+          "theft",
+          "extort"
+        ],
+        "offender causes or attempts to cause death, hurt or wrongful restraint, or fear of them, to commit the theft or carry away the property": [
+          "knife",
+          "weapon",
+          "threat",
+          "force",
+          "hurt",
+          "assault",
+          "fear",
+          "gunpoint"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement",
+        "spot_panchnama",
+        "seizure_memo"
+      ]
+    },
+    {
+      "section_id": "453a1572-c598-5fcd-8ffc-ca328eb22841",
+      "section_number": "316",
+      "offence_name": "Criminal breach of trust",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 406",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): entrustment of property or dominion over property; dishonest misappropriation, conversion to own use, or disposal in violation of law or contract.",
+      "required_elements": [
+        "entrustment of property or dominion over property",
+        "dishonest misappropriation, conversion to own use, or disposal in violation of law or contract"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 316",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "316(2): up to 5 years, or fine, or both; higher penalties for carriers, clerks, public servants and bankers.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "breach of trust",
+        "misappropriat",
+        "embezzl",
+        "entrusted"
+      ],
+      "element_cues": {
+        "entrustment of property or dominion over property": [
+          "entrust",
+          "handed over",
+          "custody",
+          "in trust"
+        ],
+        "dishonest misappropriation, conversion to own use, or disposal in violation of law or contract": [
+          "misappropriat",
+          "converted",
+          "embezzl",
+          "diverted",
+          "refused to return",
+          "sold"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "b9afa7b5-ab14-5226-a41d-29d03e4764ad",
+      "section_number": "317",
+      "offence_name": "Stolen property",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 411",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): the property is stolen property; dishonestly receiving or retaining it knowing or having reason to believe it is stolen.",
+      "required_elements": [
+        "the property is stolen property",
+        "dishonestly receiving or retaining it knowing or having reason to believe it is stolen"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 317",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "317(2): up to 3 years, or fine, or both.",
+      "cognizable": true,
+      "bailable": false,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "stolen property",
+        "recovered from the accused",
+        "receiving stolen"
+      ],
+      "element_cues": {
+        "the property is stolen property": [
+          "stolen",
+          "recovered from",
+          "received"
+        ],
+        "dishonestly receiving or retaining it knowing or having reason to believe it is stolen": [
+          "knowing",
+          "knowingly",
+          "aware",
+          "reason to believe"
+        ]
+      },
+      "expected_documents": [
+        "seizure_memo",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "34365bd0-6590-57d2-b212-bfc87cb25274",
+      "section_number": "318",
+      "offence_name": "Cheating",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Sections 417, 420",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): deception of a person; fraudulently or dishonestly inducing delivery of property or an act or omission causing damage.",
+      "required_elements": [
+        "deception of a person",
+        "fraudulently or dishonestly inducing delivery of property or an act or omission causing damage"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 318",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "318(2): up to 3 years, or fine, or both; 318(4) (inducing delivery of property): up to 7 years and fine.",
+      "cognizable": null,
+      "bailable": null,
+      "triable_by": "Magistrate of the First Class",
+      "compoundable": null,
+      "keywords": [
+        "cheat",
+        "fraud",
+        "deceiv",
+        "duped",
+        "scam",
+        "misrepresent"
+      ],
+      "element_cues": {
+        "deception of a person": [
+          "cheat",
+          "deceiv",
+          "misrepresent",
+          "fraud",
+          "false promise",
+          "fake"
+        ],
+        "fraudulently or dishonestly inducing delivery of property or an act or omission causing damage": [
+          "delivered",
+          "paid",
+          "transferred",
+          "handed over",
+          "induced",
+          "parted with"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "d6c59253-5c6e-5d4b-ba47-a5a87b47b161",
+      "section_number": "351",
+      "offence_name": "Criminal intimidation",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 506",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): threat of injury to a person, reputation or property; intent to cause alarm or to compel an act the person is not legally bound to do.",
+      "required_elements": [
+        "threat of injury to a person, reputation or property",
+        "intent to cause alarm or to compel an act the person is not legally bound to do"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 351",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "351(2): up to 2 years, or fine, or both; up to 7 years for threats of death or grievous hurt.",
+      "cognizable": null,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "threaten",
+        "intimidat",
+        "criminal intimidation",
+        "will kill"
+      ],
+      "element_cues": {
+        "threat of injury to a person, reputation or property": [
+          "threat",
+          "threaten",
+          "warned",
+          "will kill",
+          "will harm",
+          "intimidat"
+        ],
+        "intent to cause alarm or to compel an act the person is not legally bound to do": [
+          "alarm",
+          "fear",
+          "compel",
+          "forced"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "1c435434-d906-5b9c-a361-282effa199ff",
+      "section_number": "352",
+      "offence_name": "Intentional insult with intent to provoke breach of the peace",
+      "statute": "The Bharatiya Nyaya Sanhita, 2023",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": "IPC Section 504",
+      "description": "Summary of ingredients (not statutory text; verify against The Bharatiya Nyaya Sanhita, 2023): intentional insult; giving provocation intending or knowing it will cause a breach of the peace or another offence.",
+      "required_elements": [
+        "intentional insult",
+        "giving provocation intending or knowing it will cause a breach of the peace or another offence"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2024-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Bharatiya Nyaya Sanhita, 2023, section 352",
+        "uri": "https://www.indiacode.nic.in/bitstream/123456789/20062/1/a2023-45.pdf"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Up to 2 years, or fine, or both.",
+      "cognizable": false,
+      "bailable": true,
+      "triable_by": "Any Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "abused",
+        "insulted",
+        "humiliat"
+      ],
+      "element_cues": {
+        "intentional insult": [
+          "abus",
+          "insult",
+          "humiliat",
+          "slur"
+        ],
+        "giving provocation intending or knowing it will cause a breach of the peace or another offence": [
+          "provoke",
+          "breach of peace",
+          "quarrel",
+          "fight"
+        ]
+      },
+      "expected_documents": [
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "04c128e3-174b-5fd3-b1d1-091786f042de",
+      "section_number": "MV Act 184",
+      "offence_name": "Driving dangerously",
+      "statute": "The Motor Vehicles Act, 1988",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": null,
+      "description": "Summary of ingredients (not statutory text; verify against The Motor Vehicles Act, 1988): driving a motor vehicle in a public place; in a manner dangerous to the public having regard to the circumstances, including the nature, condition and use of the place and traffic.",
+      "required_elements": [
+        "driving a motor vehicle in a public place",
+        "in a manner dangerous to the public having regard to the circumstances, including the nature, condition and use of the place and traffic"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "1989-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Motor Vehicles Act, 1988, section 184",
+        "uri": "https://www.indiacode.nic.in/"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment and/or fine; higher for repeat offences (see statute for current scales).",
+      "cognizable": null,
+      "bailable": null,
+      "triable_by": "Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "dangerous driving",
+        "over speed",
+        "overspeed",
+        "red light",
+        "wrong side"
+      ],
+      "element_cues": {
+        "driving a motor vehicle in a public place": [
+          "driving",
+          "riding",
+          "driven",
+          "vehicle"
+        ],
+        "in a manner dangerous to the public having regard to the circumstances, including the nature, condition and use of the place and traffic": [
+          "dangerous",
+          "speed",
+          "red light",
+          "rash",
+          "wrong side",
+          "overtak",
+          "signal"
+        ]
+      },
+      "expected_documents": [
+        "vehicle_inspection",
+        "spot_panchnama",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "60c88043-444f-5d2c-a7d4-e0a542f4f97b",
+      "section_number": "MV Act 185",
+      "offence_name": "Driving by a drunken person or under the influence of drugs",
+      "statute": "The Motor Vehicles Act, 1988",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": null,
+      "description": "Summary of ingredients (not statutory text; verify against The Motor Vehicles Act, 1988): driving or attempting to drive a motor vehicle; under the influence of alcohol beyond the permitted blood-alcohol limit, or of drugs.",
+      "required_elements": [
+        "driving or attempting to drive a motor vehicle",
+        "under the influence of alcohol beyond the permitted blood-alcohol limit, or of drugs"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "1989-07-01",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Motor Vehicles Act, 1988, section 185",
+        "uri": "https://www.indiacode.nic.in/"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment and/or fine; higher for repeat offences (see statute for current scales).",
+      "cognizable": null,
+      "bailable": null,
+      "triable_by": "Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "drunk",
+        "alcohol",
+        "intoxicat",
+        "breath analyser",
+        "liquor"
+      ],
+      "element_cues": {
+        "driving or attempting to drive a motor vehicle": [
+          "driving",
+          "riding",
+          "driven",
+          "vehicle"
+        ],
+        "under the influence of alcohol beyond the permitted blood-alcohol limit, or of drugs": [
+          "alcohol",
+          "drunk",
+          "intoxicat",
+          "breath analy",
+          "liquor",
+          "blood alcohol"
+        ]
+      },
+      "expected_documents": [
+        "medical_report",
+        "vehicle_inspection",
+        "witness_statement"
+      ]
+    },
+    {
+      "section_id": "99e4b04d-2df2-55bc-a0c3-0f836215aa1c",
+      "section_number": "IT Act 66C",
+      "offence_name": "Identity theft",
+      "statute": "The Information Technology Act, 2000",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": null,
+      "description": "Summary of ingredients (not statutory text; verify against The Information Technology Act, 2000): fraudulent or dishonest use of another person's electronic signature, password or other unique identification feature.",
+      "required_elements": [
+        "fraudulent or dishonest use of another person's electronic signature, password or other unique identification feature"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2000-10-17",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Information Technology Act, 2000, section 66C",
+        "uri": "https://www.indiacode.nic.in/"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment up to 3 years and fine up to Rs 1 lakh.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "identity theft",
+        "password",
+        "otp",
+        "credentials",
+        "account hacked"
+      ],
+      "element_cues": {
+        "fraudulent or dishonest use of another person's electronic signature, password or other unique identification feature": [
+          "password",
+          "otp",
+          "identity",
+          "credentials",
+          "impersonat",
+          "aadhaar",
+          "login"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "case_diary"
+      ]
+    },
+    {
+      "section_id": "60f89307-24f6-5a32-a515-5ad4a1150428",
+      "section_number": "IT Act 66D",
+      "offence_name": "Cheating by personation using a computer resource",
+      "statute": "The Information Technology Act, 2000",
+      "provision_type": "substantive",
+      "legacy_ipc_equivalent": null,
+      "description": "Summary of ingredients (not statutory text; verify against The Information Technology Act, 2000): cheating by personation; using a computer resource or communication device.",
+      "required_elements": [
+        "cheating by personation",
+        "using a computer resource or communication device"
+      ],
+      "jurisdiction": "IN",
+      "effective_from": "2000-10-17",
+      "effective_to": null,
+      "verified": false,
+      "verification_date": null,
+      "source": {
+        "publisher": "India Code",
+        "citation": "The Information Technology Act, 2000, section 66D",
+        "uri": "https://www.indiacode.nic.in/"
+      },
+      "version": "bns-2023-2024-07-01",
+      "punishment": "Imprisonment up to 3 years and fine up to Rs 1 lakh.",
+      "cognizable": true,
+      "bailable": true,
+      "triable_by": "Magistrate",
+      "compoundable": null,
+      "keywords": [
+        "online fraud",
+        "phishing",
+        "fake call",
+        "impersonat",
+        "cyber"
+      ],
+      "element_cues": {
+        "cheating by personation": [
+          "impersonat",
+          "pretend",
+          "posed as",
+          "fake profile",
+          "spoof"
+        ],
+        "using a computer resource or communication device": [
+          "online",
+          "phone",
+          "computer",
+          "whatsapp",
+          "email",
+          "website",
+          "app"
+        ]
+      },
+      "expected_documents": [
+        "complaint",
+        "case_diary"
+      ]
     }
   ]
 }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from abc import ABC, abstractmethod
 from datetime import date
 from enum import StrEnum
@@ -13,6 +14,9 @@ from pydantic import Field, model_validator
 
 from ..context.case_context import CaseContext
 from ..domain.common import DomainModel, SourceReference
+
+
+_IPC_NUMBER = re.compile(r"(\d+[A-Za-z]?)")
 
 
 class LegalReferenceConfigurationError(ValueError):
@@ -45,7 +49,15 @@ class LegalReference(DomainModel):
     provision_type: str = Field(default="substantive")
     legacy_ipc_equivalent: str | None = None
     verified: bool = True
-    verification_date: str | None = "2024-07-01"
+    verification_date: str | None = None
+    punishment: str | None = None
+    cognizable: bool | None = None
+    bailable: bool | None = None
+    triable_by: str | None = None
+    compoundable: str | None = None
+    keywords: tuple[str, ...] = ()
+    element_cues: dict[str, tuple[str, ...]] = Field(default_factory=dict)
+    expected_documents: tuple[str, ...] = ()
 
     @model_validator(mode="after")
     def effective_range_is_valid(self) -> "LegalReference":
@@ -117,3 +129,13 @@ class LocalLegalReferenceProvider(LegalReferenceProvider):
 
     def lookup(self, section_number: str) -> LegalReference | None:
         return next((reference for reference in self.dataset.references if reference.section_number == section_number), None)
+
+    def bns_for_ipc(self, ipc_section: str) -> LegalReference | None:
+        """Crosswalk an IPC section number (e.g. "323") to its BNS reference."""
+
+        wanted = ipc_section.strip().upper()
+        for reference in self.dataset.references:
+            numbers = {n.upper() for n in _IPC_NUMBER.findall(reference.legacy_ipc_equivalent or "")}
+            if wanted in numbers:
+                return reference
+        return None

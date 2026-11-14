@@ -8,9 +8,10 @@ from pathlib import Path
 from typing import Any
 
 from ..domain.documents import SourceDocument
+from ..text_normalization import devanagari_ratio
 from .ocr_client import OCRClient
 from .ocr_exceptions import OCRProviderError, OCRResponseError, UnsupportedOCRDocumentError
-from .ocr_result import OCRMetadata, OCRPage, OCRResult
+from .ocr_result import OCRLine, OCRMetadata, OCRPage, OCRResult
 
 
 class GeminiOCRClient(OCRClient):
@@ -19,7 +20,11 @@ class GeminiOCRClient(OCRClient):
     supported_mime_types = frozenset({"application/pdf", "image/png", "image/jpeg"})
     OCR_PROMPT = """You are an OCR transcription service. Transcribe the supplied document exactly.
 Do not summarize, classify, identify people, extract document fields, or infer facts.
-Use the supplied response schema. For multi-page PDFs, return one entry per page in page order."""
+The document may be in English, Hindi or Marathi (Devanagari), printed or handwritten. Keep every
+word in its original script and language; never translate, transliterate or correct spelling.
+Use the supplied response schema. For multi-page PDFs, return one entry per page in page order.
+For each page also return "lines": every visible text line in reading order, each with its text and
+"box_2d" as [ymin, xmin, ymax, xmax] on a 0-1000 scale relative to the page image."""
     RESPONSE_SCHEMA = {
         "type": "object",
         "properties": {
@@ -31,6 +36,17 @@ Use the supplied response schema. For multi-page PDFs, return one entry per page
                         "page_number": {"type": "integer"},
                         "text": {"type": "string"},
                         "confidence": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+                        "lines": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "text": {"type": "string"},
+                                    "box_2d": {"type": "array", "items": {"type": "number"}},
+                                },
+                                "required": ["text", "box_2d"],
+                            },
+                        },
                     },
                     "required": ["page_number", "text"],
                 },
@@ -64,27 +80,24 @@ Use the supplied response schema. For multi-page PDFs, return one entry per page
 
         started = time.perf_counter()
         if (document.media_type == "application/pdf" or str(source_path).endswith(".pdf")) and source_path.is_file():
-            from .pdf_extractor import extract_digital_pdf_pages
-            digital_pages = extract_digital_pdf_pages(source_path)
-            if digital_pages and sum(len(p.strip()) for p in digital_pages) >= 50:
-                pages = tuple(
-                    OCRPage(page_number=idx, text=page_text, confidence=0.99)
-                    for idx, page_text in enumerate(digital_pages, 1)
-                )
+            from .pdf_extractor import digital_pdf_ocr_pages
+            pages = digital_pdf_ocr_pages(source_path)
+            if pages and sum(len(p.text.strip()) for p in pages) >= 50:
+                raw_text = "\n\n".join(page.text for page in pages)
                 processing_time_ms = (time.perf_counter() - started) * 1000
                 return OCRResult(
                     document_id=document.id,
                     pages=pages,
-                    raw_text="\n\n".join(page.text for page in pages),
-                    confidence=0.99,
+                    raw_text=raw_text,
+                    confidence=0.98,
                     warnings=(),
-                    language="en",
+                    language="hi" if devanagari_ratio(raw_text) > 0.3 else "en" if raw_text.isascii() else None,
                     metadata=OCRMetadata(
                         provider="gemini_digital_ocr",
-                        model="native_stream_extractor",
+                        model="pymupdf_text_layer",
                         input_mime_type=document.media_type,
                         processing_time_ms=processing_time_ms,
-                        token_usage=sum(len(p.split()) for p in digital_pages),
+                        token_usage=sum(len(p.text.split()) for p in pages),
                     ),
                 )
 
@@ -217,8 +230,26 @@ Use the supplied response schema. For multi-page PDFs, return one entry per page
                     page_number=item["page_number"],
                     text=item["text"],
                     confidence=item.get("confidence"),
+                    lines=GeminiOCRClient._build_lines(item.get("lines")),
                 )
                 for item in raw_pages
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise OCRResponseError("Gemini OCR pages do not match the OCR contract") from exc
+
+    @staticmethod
+    def _build_lines(raw_lines: Any) -> tuple[OCRLine, ...]:
+        """Convert Gemini's 0-1000 [ymin, xmin, ymax, xmax] boxes; drop malformed ones."""
+
+        lines: list[OCRLine] = []
+        for raw in raw_lines or ():
+            try:
+                ymin, xmin, ymax, xmax = (float(v) for v in raw["box_2d"])
+                text = str(raw["text"]).strip()
+            except (KeyError, TypeError, ValueError):
+                continue
+            if not text or ymax <= ymin or xmax <= xmin:
+                continue
+            clamp = lambda v: max(0.0, min(1.0, v / 1000.0))  # noqa: E731
+            lines.append(OCRLine(text=text, bbox=(clamp(xmin), clamp(ymin), clamp(xmax), clamp(ymax))))
+        return tuple(lines)

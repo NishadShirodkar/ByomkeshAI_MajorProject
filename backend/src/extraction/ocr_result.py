@@ -9,12 +9,22 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 
+class OCRLine(BaseModel):
+    """One transcribed line with a box normalized to the page (0-1, top-left origin)."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    text: str
+    bbox: tuple[float, float, float, float]
+
+
 class OCRPage(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     page_number: int = Field(ge=1)
     text: str
     confidence: float | None = Field(default=None, ge=0, le=1)
+    lines: tuple[OCRLine, ...] = ()
 
 
 class OCRMetadata(BaseModel):

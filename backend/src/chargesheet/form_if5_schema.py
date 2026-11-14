@@ -88,6 +88,12 @@ class ChargeSheetLegalFinding(DomainModel):
     missing_evidence: tuple[str, ...] = ()
     reasoning_summary: str | None = None
     review_warnings: tuple[str, ...] = ()
+    punishment: str | None = None
+    cognizable: bool | None = None
+    bailable: bool | None = None
+    triable_by: str | None = None
+    court_readiness: float | None = Field(default=None, ge=0, le=1)
+    evidence_gaps: tuple[str, ...] = ()
 
 
 class ChargeSheetReviewItem(DomainModel):
@@ -121,6 +127,7 @@ class ChargeSheetData(DomainModel):
     legal_sections: tuple[ChargeSheetField, ...] = ()
     legal_findings: tuple[ChargeSheetLegalFinding, ...] = ()
     conflicts: tuple[ChargeSheetReviewItem, ...] = ()
+    contradictions: tuple[dict, ...] = ()
     missing_information: tuple[ChargeSheetReviewItem, ...] = ()
     annexures: tuple[IF5Row, ...] = ()
     final_opinion: ChargeSheetField

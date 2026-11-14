@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-import re
-
+from ..text_normalization import name_tokens, normalize_for_match
 from .graph_models import GraphNodeType
 
 
@@ -12,7 +11,7 @@ class EntityResolver:
 
     @staticmethod
     def identity_key(node_type: GraphNodeType, label: str) -> str:
-        normalized = re.sub(r"[^a-z0-9]", "", label.casefold())
+        normalized = normalize_for_match(label)
         if node_type == GraphNodeType.VEHICLE:
             return f"vehicle:{normalized}"
         if node_type == GraphNodeType.LOCATION:
@@ -25,8 +24,8 @@ class EntityResolver:
     def person_matches(left: str, right: str) -> bool:
         """Match name abbreviations only when their explicit tokens are compatible."""
 
-        left_tokens = re.findall(r"[a-z0-9]+", left.casefold())
-        right_tokens = re.findall(r"[a-z0-9]+", right.casefold())
+        left_tokens = name_tokens(left)
+        right_tokens = name_tokens(right)
         if not left_tokens or not right_tokens or left_tokens[0] != right_tokens[0]:
             return False
         if len(left_tokens) == 1 or len(right_tokens) == 1:

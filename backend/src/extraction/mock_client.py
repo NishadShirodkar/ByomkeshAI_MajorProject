@@ -33,13 +33,10 @@ class MockOCRClient(OCRClient):
         # If the file actually exists on disk and contains digital text, extract REAL content!
         if source_path.is_file():
             if document.media_type == "application/pdf" or str(source_path).endswith(".pdf"):
-                from .pdf_extractor import extract_digital_pdf_pages
-                digital_pages = extract_digital_pdf_pages(source_path)
+                from .pdf_extractor import digital_pdf_ocr_pages
+                pages = digital_pdf_ocr_pages(source_path)
+                digital_pages = [p.text for p in pages] if pages else []
                 if digital_pages and sum(len(p.strip()) for p in digital_pages) >= 50:
-                    pages = tuple(
-                        OCRPage(page_number=idx, text=page_text, confidence=0.99)
-                        for idx, page_text in enumerate(digital_pages, 1)
-                    )
                     return OCRResult(
                         document_id=document.id,
                         pages=pages,
@@ -250,7 +247,7 @@ class MockParserClient(ParserClient):
 
     def generate_json(self, prompt: str) -> dict[str, Any]:
         prompt_cf = prompt.casefold()
-        split_idx = prompt.find("OCR transcription (preserve its meaning; do not add information):")
+        split_idx = prompt.rfind("<document_text>")
         ocr_text = prompt[split_idx:] if split_idx != -1 else prompt
 
         # Separate true copy / digital generation banner from substantive document body

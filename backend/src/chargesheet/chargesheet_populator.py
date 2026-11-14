@@ -385,5 +385,11 @@ class ChargeSheetPopulator:
             missing_evidence=tuple(getattr(finding, "missing_evidence", ())),
             reasoning_summary=getattr(finding, "reasoning_summary", None),
             review_warnings=tuple(getattr(finding, "review_warnings", ())),
+            punishment=getattr(finding, "punishment", None),
+            cognizable=getattr(finding, "cognizable", None),
+            bailable=getattr(finding, "bailable", None),
+            triable_by=getattr(finding, "triable_by", None),
+            court_readiness=getattr(finding, "court_readiness", None),
+            evidence_gaps=tuple(getattr(finding, "evidence_gaps", ())),
         )
 

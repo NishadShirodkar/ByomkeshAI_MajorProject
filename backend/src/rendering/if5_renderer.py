@@ -5,6 +5,8 @@ from __future__ import annotations
 from html import escape
 from pathlib import Path
 
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
@@ -12,7 +14,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas
 from reportlab.platypus import (
-    BaseDocTemplate, Frame, HRFlowable,
+    BaseDocTemplate, Flowable, Frame, HRFlowable,
     PageBreak, PageTemplate, Paragraph, Spacer, Table, TableStyle,
 )
 
@@ -73,6 +75,21 @@ class NumberedCanvas(canvas.Canvas):
         self.restoreState()
 
 
+class SignatureSlot(Flowable):
+    """Empty reserved box; records where it landed so a signature stamp can be placed exactly here."""
+
+    def __init__(self, width: float, height: float, sink: dict) -> None:
+        super().__init__()
+        self.width, self.height, self.sink = width, height, sink
+
+    def wrap(self, available_width, available_height):
+        return self.width, self.height
+
+    def draw(self):
+        x, y = self.canv.absolutePosition(0, 0)
+        self.sink.update(page=self.canv.getPageNumber(), box=(x, y, x + self.width, y + self.height))
+
+
 def _make_canvas_class(is_final: bool):
     class ConfiguredCanvas(NumberedCanvas):
         _is_final = is_final
@@ -84,7 +101,7 @@ class IF5Renderer:
 
     _MAX_TABLE_ROW_TEXT_LENGTH = 1200
 
-    def render(self, data: ChargeSheetData, output: Path, *, final: bool = False) -> Path:
+    def render(self, data: ChargeSheetData, output: Path, *, final: bool = False, verify_url: str | None = None, signature_sink: dict | None = None) -> Path:
         if data.disposition == "final_blocked":
             raise ValueError("FINAL_BLOCKED cases cannot render a charge sheet")
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -146,6 +163,26 @@ class IF5Renderer:
                     styles["Small"],
                 ),
             ]
+            if verify_url:
+                qr_table = Table(
+                    [[
+                        self._qr_drawing(verify_url),
+                        Paragraph(
+                            "<b>Verify authenticity</b><br/>Scan the code or open the address below to check that this "
+                            "document is unaltered and digitally sealed, and that its approval history is intact.<br/>"
+                            f"{escape(verify_url)}",
+                            styles["Small"],
+                        ),
+                    ]],
+                    colWidths=[32 * mm, None],
+                )
+                if signature_sink is not None:
+                    qr_table = Table(
+                        [[qr_table._cellvalues[0][0], qr_table._cellvalues[0][1], SignatureSlot(70 * mm, 24 * mm, signature_sink)]],
+                        colWidths=[32 * mm, None, 74 * mm],
+                    )
+                qr_table.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("LEFTPADDING", (0, 0), (-1, -1), 0)]))
+                story += [Spacer(1, 4 * mm), qr_table]
 
         document = BaseDocTemplate(
             str(output),
@@ -160,6 +197,14 @@ class IF5Renderer:
         document.addPageTemplates(PageTemplate(id="charge-sheet", frames=[frame]))
         document.build(story, canvasmaker=_make_canvas_class(final))
         return output
+
+    @staticmethod
+    def _qr_drawing(url: str, size: float = 28 * mm) -> Drawing:
+        widget = QrCodeWidget(url)
+        x0, y0, x1, y1 = widget.getBounds()
+        drawing = Drawing(size, size, transform=[size / (x1 - x0), 0, 0, size / (y1 - y0), 0, 0])
+        drawing.add(widget)
+        return drawing
 
     @staticmethod
     def _styles():

@@ -32,6 +32,17 @@ class DocumentType(StrEnum):
     OTHER = "other"
 
 
+OPTIONAL_DOCUMENT_TYPES = frozenset(
+    {
+        DocumentType.CCTV_IMAGE,
+        DocumentType.CCTV_VIDEO,
+        DocumentType.PHOTOGRAPH,
+        DocumentType.AUDIO,
+        DocumentType.OTHER,
+    }
+)
+
+
 class ExtractionState(StrEnum):
     PENDING = "pending"
     COMPLETE = "complete"

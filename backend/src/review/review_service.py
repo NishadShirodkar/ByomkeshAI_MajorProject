@@ -10,6 +10,7 @@ from ..chargesheet.form_if5_schema import ChargeSheetData
 from ..intake.storage_layout import CaseStorageLayout
 from ..rendering.if5_renderer import IF5Renderer
 from ..validation.validation_models import ValidationDisposition
+from .audit_chain import chain_head, compute_event_hash
 from .review_models import ChargeSheetReview, ReviewEvent, ReviewEventType, ReviewNote, ReviewStatus
 
 
@@ -106,9 +107,30 @@ class ReviewService:
         final_path = layout.processed_directory / "chargesheet" / "final" / f"ChargeSheet_v{data.version}_final.pdf"
         if final_path.exists():
             raise ReviewLifecycleError("A finalized artifact already exists and will not be overwritten")
-        IF5Renderer().render(data, final_path, final=True)
+        from ..signing import public_base_url, seal_pdf
+        from ..signing.identity import load_or_create_identity
+        from ..signing.pades import embed_signature
+
+        slot: dict = {}
+        IF5Renderer().render(data, final_path, final=True, verify_url=f"{public_base_url()}/verify/{data.case_id}", signature_sink=slot)
+        embed_signature(
+            final_path,
+            load_or_create_identity(storage_root),
+            page_number=slot.get("page"),
+            box=slot.get("box"),
+            reason=f"Approved and finalized charge sheet v{data.version}",
+            location="BYOMKESH AI",
+        )
         finalized = review.model_copy(update={"status": ReviewStatus.FINALIZED, "finalized_at": datetime.now(timezone.utc), "final_artifact_reference": layout.relative_key(final_path)})
         finalized = self._event(finalized, ReviewEventType.FINALIZED, actor_id=review.reviewer_id or "system")
+        seal_pdf(
+            storage_root,
+            final_path,
+            case_id=data.case_id,
+            version=data.version,
+            content_hash=data.content_hash,
+            audit_head=chain_head(finalized.events),
+        )
         state_path = layout.processed_directory / "chargesheet" / "review_state.json"
         state_path.write_text(json.dumps(finalized.model_dump(mode="json"), indent=2), encoding="utf-8")
         return finalized
@@ -124,5 +146,6 @@ class ReviewService:
             raise ReviewLifecycleError("ChargeSheetData does not match the review version and content hash")
 
     def _event(self, review: ChargeSheetReview, event_type: ReviewEventType, *, actor_id: str = "system", metadata: dict[str, str] | None = None) -> ChargeSheetReview:
-        event = ReviewEvent(event_type=event_type, case_id=review.case_id, charge_sheet_id=review.charge_sheet_id, version=review.data_version, actor_id=actor_id, metadata=metadata or {})
+        event = ReviewEvent(event_type=event_type, case_id=review.case_id, charge_sheet_id=review.charge_sheet_id, version=review.data_version, actor_id=actor_id, metadata=metadata or {}, prev_hash=chain_head(review.events))
+        event = event.model_copy(update={"event_hash": compute_event_hash(event)})
         return review.model_copy(update={"events": review.events + (event,)})

@@ -3,20 +3,25 @@
 from __future__ import annotations
 
 import logging
+import re
 import time
 from pathlib import Path
+from typing import Any
 from uuid import UUID
 
 from ..config import Config
+from ..domain.common import SourceReference
 from ..intake.storage_layout import CaseStorageLayout
 from ..rag.case_retriever import CaseRetriever
 from ..rag.embedding_provider import EmbeddingProvider, GeminiEmbeddingProvider, NoOpEmbeddingProvider
 from ..workflow.context import ContextItem, GeneratedArtifact, WorkflowContext
 from ..workflow.stage import WorkflowStage
 from .legal_artifacts import LegalArtifactWriter
+from .legal_findings import EvidenceMapping
 from .legal_reasoner import LegalReasoner
 
 logger = logging.getLogger(__name__)
+_SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+|\n+")
 
 
 class LegalReasoningStage(WorkflowStage):
@@ -33,6 +38,30 @@ class LegalReasoningStage(WorkflowStage):
         self.reasoner = reasoner
         self.artifact_writer = artifact_writer or LegalArtifactWriter(storage_root)
         self.embedding_provider = embedding_provider
+
+    @staticmethod
+    def _narrative_evidence(context: WorkflowContext) -> tuple[EvidenceMapping, ...]:
+        """Sentence-level evidence from FIR, complaint and witness narratives, each with an exact excerpt."""
+
+        fields = (("narrative_text", "fir"), ("complaint_text", "complaint"), ("statement_text", "witness_statement"))
+        mappings: list[EvidenceMapping] = []
+        for item in context.parsed_documents:
+            document = item.value
+            for attribute, label in fields:
+                text = getattr(document, attribute, None)
+                if not isinstance(text, str) or not text.strip():
+                    continue
+                sentences = [s.strip() for s in _SENTENCE_SPLIT.split(text) if len(s.strip()) >= 20]
+                for sentence in sentences[:40]:
+                    mappings.append(
+                        EvidenceMapping(
+                            source_document_id=document.document_id,
+                            field_path=f"{label}.{attribute}",
+                            description=sentence,
+                            source_references=(SourceReference(document_id=document.document_id, excerpt=sentence),),
+                        )
+                    )
+        return tuple(mappings)
 
     def can_run(self, context: WorkflowContext) -> bool:
         return context.case_context is not None and context.legal_findings is None
@@ -76,7 +105,7 @@ class LegalReasoningStage(WorkflowStage):
             logger.warning("Case-isolated RAG indexing failed; proceeding with deterministic reasoning: %s", exc)
             retriever = None
 
-        findings = self.reasoner.reason(context.case_context, retriever=retriever)
+        findings = self.reasoner.reason(context.case_context, retriever=retriever, narrative_evidence=self._narrative_evidence(context))
         metrics = {
             "reasoning_duration_ms": (time.perf_counter() - started) * 1000,
             "findings": len(findings.findings),

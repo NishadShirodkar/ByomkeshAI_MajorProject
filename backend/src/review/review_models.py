@@ -46,6 +46,8 @@ class ReviewEvent(DomainModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     actor_id: str = "system"
     metadata: dict[str, str] = Field(default_factory=dict)
+    prev_hash: str | None = None
+    event_hash: str | None = None
 
 
 class ChargeSheetReview(DomainModel):

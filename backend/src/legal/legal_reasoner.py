@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from abc import ABC, abstractmethod
 from typing import Any
 
@@ -21,7 +22,8 @@ from .legal_findings import (
     LegalFindingStatus,
     LegalFindings,
 )
-from .legal_rules import LegalReferenceProvider
+from .ingredient_matcher import match_element, mentions
+from .legal_rules import _IPC_NUMBER, LegalReferenceProvider
 
 
 class LegalReasoningClient(ABC):
@@ -44,16 +46,49 @@ class LegalReasoner:
         self.max_attempts = max_attempts
         self.evidence_mapper = EvidenceMapper()
 
-    def reason(self, context: CaseContext, retriever: Any | None = None) -> LegalFindings:
+    def reason(self, context: CaseContext, retriever: Any | None = None, narrative_evidence: tuple[EvidenceMapping, ...] = ()) -> LegalFindings:
         active_retriever = retriever or self.retriever
-        available = self.evidence_mapper.available(context)
+        available = self.evidence_mapper.available(context) + tuple(narrative_evidence)
         references = self.reference_provider.references_for(context)
         if context.validation_disposition == ValidationDisposition.FINAL_BLOCKED.value:
             return LegalFindings(findings=(), review_required=True, validation_disposition=context.validation_disposition, retry_count=0)
         if self.client is not None:
             return self._reason_with_client(context, references, available)
+        references, ipc_note = self._select_candidates(references, available, context)
         findings = tuple(self._deterministic_finding(reference, available, context, active_retriever) for reference in references)
-        return LegalFindings(findings=findings, review_required=context.validation_disposition != ValidationDisposition.DRAFT_ALLOWED.value or any(item.review_required for item in findings) or not references, validation_disposition=context.validation_disposition, retry_count=0)
+        return LegalFindings(findings=findings, review_required=context.validation_disposition != ValidationDisposition.DRAFT_ALLOWED.value or any(item.review_required for item in findings) or not references, validation_disposition=context.validation_disposition, retry_count=0, reasoning_summary=ipc_note)
+
+    def _select_candidates(self, references, evidence, context):
+        """Keep sections the case alleges or whose keywords occur in the evidence; keyword-less references always stay."""
+
+        allegation_text = " ".join(str(fact.value) for fact in context.legal_section_references).casefold()
+        case_text = " ".join(m.description for m in evidence).casefold() + " " + allegation_text
+        ipc_numbers: set[str] = set()
+        bns_numbers: set[str] = set()
+        for fact in context.legal_section_references:
+            text = str(fact.value)
+            target = ipc_numbers if re.search(r"\bi\.?p\.?c\b", text, re.IGNORECASE) else bns_numbers
+            target.update(match.upper() for match in re.findall(r"\d+[A-Za-z]?", text))
+
+        selected = []
+        for reference in references:
+            if not reference.keywords:
+                selected.append(reference)
+                continue
+            number = reference.section_number.split()[-1].upper()
+            legacy_numbers = {n.upper() for n in _IPC_NUMBER.findall(reference.legacy_ipc_equivalent or "")}
+            alleged = (reference.statute.startswith("The Bharatiya Nyaya") and number in bns_numbers) or bool(
+                legacy_numbers & ipc_numbers
+            )
+            if alleged or any(mentions(case_text, (keyword.casefold(),)) for keyword in reference.keywords):
+                selected.append(reference)
+        note = None
+        if ipc_numbers:
+            note = (
+                f"The case cites IPC section(s) {', '.join(sorted(ipc_numbers))}. BNS applies to offences committed on or after "
+                "1 July 2024 and IPC to earlier offences; confirm the offence date before charging."
+            )
+        return tuple(selected), note
 
     def _deterministic_finding(self, reference, evidence, context, retriever=None):
         ingredient_assessments = []
@@ -68,7 +103,7 @@ class LegalReasoner:
         # Check for case-wide medical findings indicating non-fatal injury vs fatal
         medical_texts = [str(f.value).casefold() for f in context.medical_findings]
         victim_survived = any(
-            any(kw in t for kw in ("simple hurt", "grievous hurt", "laceration", "fracture", "abrasion", "discharged", "treated", "alive", "conscious"))
+            mentions(t, ("simple hurt", "grievous hurt", "laceration", "fracture", "abrasion", "discharged", "treated", "alive", "conscious"))
             for t in medical_texts
         )
         post_mortem_na = any(
@@ -80,7 +115,7 @@ class LegalReasoner:
             for f in context.medical_findings
         )
         has_fatal_record = any(
-            any(kw in t for kw in ("death", "dead", "deceased", "fatal", "post-mortem conducted", "cause of death"))
+            mentions(t, ("death", "dead", "deceased", "fatal", "post-mortem conducted", "cause of death"))
             for t in medical_texts
         )
 
@@ -115,15 +150,37 @@ class LegalReasoner:
                 review_warnings.append(f"Ingredient '{element}' is contradicted: case records confirm victim survived.")
                 continue
 
-            # General ingredient keyword & token matching against available canonical evidence
-            elem_tokens = [t.strip(",. ") for t in elem_folded.split() if len(t.strip(",. ")) > 3]
-            supporting_for_elem = []
+            # Negation-aware ingredient matching against available canonical evidence
+            cues = tuple(reference.element_cues.get(element, ()))
+            scored_support = []
+            negating_for_elem = []
             for m in evidence:
-                m_desc = m.description.casefold()
-                if elem_folded in m_desc:
-                    supporting_for_elem.append(m)
-                elif elem_tokens and sum(1 for t in elem_tokens if t in m_desc) >= max(1, len(elem_tokens) // 2):
-                    supporting_for_elem.append(m)
+                result = match_element(element, cues, m.description)
+                if result.supports:
+                    scored_support.append((result.score, m))
+                elif result.negated:
+                    negating_for_elem.append(m)
+            scored_support.sort(key=lambda item: item[0], reverse=True)
+            supporting_for_elem = [m for _, m in scored_support[:3]]
+            best_score = scored_support[0][0] if scored_support else 0.0
+            if negating_for_elem and not supporting_for_elem:
+                for m in negating_for_elem:
+                    if m not in contradicting_mappings:
+                        contradicting_mappings.append(m)
+                ingredient_assessments.append(
+                    IngredientAssessment(
+                        ingredient_name=element,
+                        status=IngredientStatus.NOT_ESTABLISHED,
+                        supporting_evidence_ids=(),
+                        reasoning=f"Records state the opposite: {negating_for_elem[0].description[:100]}",
+                        evidence_quote=negating_for_elem[0].description[:160],
+                        confidence=0.0,
+                    )
+                )
+                missing_evidence.append(f"Evidence establishing: {element}")
+                review_warnings.append(f"Ingredient '{element}' appears to be negated by case records.")
+                continue
+            quote = supporting_for_elem[0].description[:160] if supporting_for_elem else None
 
             # Query retriever for this ingredient if available
             retrieved_for_elem: list[RetrievedPassage] = []
@@ -176,6 +233,8 @@ class LegalReasoner:
                         supporting_evidence_ids=tuple(str(m.source_document_id) for m in supporting_for_elem),
                         reasoning=reasoning,
                         retrieved_passages=tuple(retrieved_for_elem),
+                        confidence=best_score if status == IngredientStatus.SUPPORTED else min(best_score, 0.5),
+                        evidence_quote=quote,
                     )
                 )
             elif any(p.relevance_category == RelevanceCategory.SUPPORTING for p in retrieved_for_elem):
@@ -219,7 +278,7 @@ class LegalReasoner:
 
         num_supported = sum(1 for a in ingredient_assessments if a.status == IngredientStatus.SUPPORTED)
         total_elements = len(reference.required_elements)
-        all_supported = (total_elements == 0) or (num_supported == total_elements)
+        all_supported = total_elements > 0 and num_supported == total_elements
 
         is_procedural = getattr(reference, "provision_type", "substantive") in ("procedural", "evidentiary")
 
@@ -241,7 +300,7 @@ class LegalReasoner:
                 review_warnings.append("Retrieved document passage contradicts statutory ingredient(s) of this offence.")
             if finding_conflict:
                 review_warnings.append("Evidentiary conflict in case records directly affects this offence.")
-        elif all_supported and (unique_supporting or total_elements == 0):
+        elif all_supported and unique_supporting:
             status = LegalFindingStatus.SUPPORTED
             review_required = False
             confidence = 0.85
@@ -301,8 +360,28 @@ class LegalReasoner:
                 f"Statutory provision is {reference.provision_type} (compliance standard), not a substantive penal offence charged against accused."
             )
 
+        weights = {IngredientStatus.SUPPORTED: 1.0, IngredientStatus.REQUIRES_REVIEW: 0.5}
+        court_readiness = (
+            sum(weights.get(a.status, 0.0) for a in ingredient_assessments) / total_elements if total_elements else 0.0
+        )
+        if retrieval_contradiction or finding_conflict or ingredient_contradicted:
+            court_readiness *= 0.8
+        present_types = {self._document_type(doc) for doc in context.documents}
+        evidence_gaps = list(missing_evidence)
+        for expected in reference.expected_documents:
+            if not any(expected in present for present in present_types):
+                evidence_gaps.append(
+                    f"No {expected.replace('_', ' ')} on record (normally needed to prove Section {reference.section_number})."
+                )
+
         return LegalFinding(
             legal_reference_id=reference.section_id,
+            punishment=reference.punishment,
+            cognizable=reference.cognizable,
+            bailable=reference.bailable,
+            triable_by=reference.triable_by,
+            court_readiness=round(min(1.0, court_readiness), 2),
+            evidence_gaps=tuple(evidence_gaps),
             offence=reference.offence_name,
             proposed_section=reference.section_number,
             statute=statute_name,
@@ -320,6 +399,12 @@ class LegalReasoner:
             review_required=review_required,
             source_references=tuple(item for mapping in selected for item in mapping.source_references),
         )
+
+    @staticmethod
+    def _document_type(document) -> str:
+        fact = document.document_type
+        value = getattr(fact, "value", fact)
+        return str(getattr(value, "value", value) or "").casefold()
 
     def _reason_with_client(self, context, references, available) -> LegalFindings:
         allowed = {(item.source_document_id, item.field_path) for item in available}

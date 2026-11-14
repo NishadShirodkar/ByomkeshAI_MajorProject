@@ -222,14 +222,11 @@ class Phase1StabilityTests(TestCase):
             engine = WorkflowEngine(StageRegistry((stage,)))
             result = engine.run(context)
 
-            self.assertTrue(result.report.successful)
+            # A failed core document must stop the case rather than yield an incomplete chargesheet.
+            self.assertFalse(result.report.successful)
             record = result.context.execution_state.record_for("document_parsing")
-            self.assertEqual(record.status, StageStatus.COMPLETED)
-
-            docs = {doc.original_filename: doc for doc in result.context.uploaded_documents}
-            self.assertEqual(docs["fir.pdf"].parsing_state, ParsingState.COMPLETE)
-            self.assertEqual(docs["complaint.pdf"].parsing_state, ParsingState.FAILED)
-            self.assertEqual(len(result.context.parsed_documents), 1)
+            self.assertEqual(record.status, StageStatus.FAILED)
+            self.assertIn("core document", str(record.exception))
 
     def test_generic_filename_content_classification_and_safe_fallback(self):
         """Req 3C: Generic filenames e.g. scan_001.pdf are classified by content or fall back safely."""
