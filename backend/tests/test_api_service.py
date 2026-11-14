@@ -6,6 +6,7 @@ import io
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
+from unittest.mock import patch
 from uuid import uuid4
 
 from fastapi.testclient import TestClient
@@ -262,19 +263,20 @@ class FastAPIServiceTests(TestCase):
         """Req 9.13 & 9.18: Truthful error reporting on workflow failure without leaking secrets."""
         self.client.post("/api/v1/cases", json={"case_id": "case-fail-test"})
 
-        # Upload an arbitrary note that will produce no valid legal findings
         arbitrary_pdf = make_pdf_bytes("General text without any police or legal markers")
         self.client.post(
             "/api/v1/cases/case-fail-test/documents",
             files=[("files", ("arbitrary.pdf", arbitrary_pdf, "application/pdf"))],
         )
 
-        res = self.client.post("/api/v1/cases/case-fail-test/process", json={"mock_llm": True})
-        self.assertEqual(res.status_code, 202)
-        job_id = res.json()["job_id"]
-
-        job = self.job_service.wait_for_job(job_id, timeout=10.0)
+        # Simulate a provider outage inside the workflow; the job must fail and report it truthfully.
+        with patch("src.api.services.job_service.run_production_workflow", side_effect=RuntimeError("provider unavailable")):
+            res = self.client.post("/api/v1/cases/case-fail-test/process", json={"mock_llm": True})
+            self.assertEqual(res.status_code, 202)
+            job_id = res.json()["job_id"]
+            job = self.job_service.wait_for_job(job_id, timeout=10.0)
         self.assertEqual(job.status, "failed")
+        self.assertIn("provider unavailable", str(job.error))
         self.assertIsNotNone(job.error)
         self.assertNotIn("API_KEY", str(job.error))
 

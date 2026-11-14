@@ -135,6 +135,19 @@ def _side(document: ParsedDocument, text: str, value: str | None = None) -> Cont
     return ContradictionSide(document_id=document.document_id, document_label=_label(document), text=text, value=value)
 
 
+GENERIC_PLACE_WORDS = frozenset(
+    "near opposite road marg street new delhi metro station police chowk sector nagar colony block lane gali "
+    "main market crossing point junction t flyover bridge area the of at in".split()
+)
+
+
+def _place_key(place: str) -> str:
+    """Distinctive words of a place name; generic words like 'road' or 'metro station' prove nothing."""
+
+    tokens = [token for token in name_tokens(place) if token not in GENERIC_PLACE_WORDS]
+    return " ".join(tokens)
+
+
 def _fmt_minutes(minutes: int) -> str:
     return f"{minutes // 60:02d}:{minutes % 60:02d}"
 
@@ -235,8 +248,10 @@ class ContradictionDetector:
         found: list[Contradiction] = []
         for other in others:
             if isinstance(other, (SpotPanchnama, SitePlan, CCTVMetadata)) and other.location:
-                score = fuzz.token_set_ratio(normalize_for_match(fir.occurrence_location), normalize_for_match(other.location))
-                if score < 45:
+                left, right = _place_key(fir.occurrence_location), _place_key(other.location)
+                if not left or not right:
+                    continue
+                if fuzz.token_set_ratio(left, right) < 45:
                     found.append(
                         Contradiction(
                             kind=ContradictionKind.LOCATION,

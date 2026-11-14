@@ -334,7 +334,24 @@
         "citation": "The Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023), section 63",
         "uri": "https://www.indiacode.nic.in/bitstream/123456789/20064/1/a2023-47.pdf"
       },
-      "version": "bns-2023-2024-07-01"
+      "version": "bns-2023-2024-07-01",
+      "element_cues": {},
+      "keywords": [
+        "electronic record",
+        "whatsapp",
+        "call detail",
+        "cctv footage",
+        "hard disk",
+        "memory card",
+        "screenshot",
+        "dvr"
+      ],
+      "punishment": null,
+      "cognizable": null,
+      "bailable": null,
+      "triable_by": null,
+      "compoundable": null,
+      "expected_documents": []
     },
     {
       "section_id": "38092468-b0be-559f-93a4-1eac8f310c2d",

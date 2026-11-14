@@ -62,8 +62,10 @@ class CaseReviewService:
         data_file = layout.processed_directory / "chargesheet" / "draft" / f"ChargeSheet_v{latest_version}_data.json"
         if not data_file.is_file():
             raise ArtifactNotFoundError(f"Charge-sheet data file missing for version {latest_version}.")
-        raw_json = data_file.read_text(encoding="utf-8")
-        return ChargeSheetData.model_validate_json(raw_json)
+        payload = json.loads(data_file.read_text(encoding="utf-8"))
+        # Outputs written by older schema versions may carry fields the current model no longer has.
+        known = set(ChargeSheetData.model_fields)
+        return ChargeSheetData.model_validate({key: value for key, value in payload.items() if key in known})
 
     def _load_or_create_review(self, layout: CaseStorageLayout, data: ChargeSheetData) -> ChargeSheetReview:
         state_file = layout.processed_directory / "chargesheet" / "review_state.json"

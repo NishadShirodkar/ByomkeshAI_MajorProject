@@ -144,3 +144,12 @@ def test_case_diary_entries_are_scanned():
     fir = _fir()
     diary = CaseDiary(document_id=uuid4(), ocr_text_sha256=SHA, parse_metadata=META, entries=())
     assert ContradictionDetector().detect([fir, diary]) == ()
+
+
+def test_location_mismatch_not_hidden_by_generic_words():
+    other = SpotPanchnama(
+        document_id=uuid4(), ocr_text_sha256=SHA, parse_metadata=META,
+        location="Najafgarh Road, near Uttam Nagar East Metro Station, New Delhi",
+    )
+    fir = _fir(occurrence_location="Sector 10 Road, near Dwarka Mor Metro Station, New Delhi")
+    assert ContradictionKind.LOCATION in _kinds(ContradictionDetector().detect([fir, other]))
