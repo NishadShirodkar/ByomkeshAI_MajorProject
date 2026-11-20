@@ -127,7 +127,7 @@ export default function SourceViewer({ caseId, references, fieldText, title, onC
               <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", fontSize: "12px" }}>
                 {match ? (
                   <span className={`badge ${exact ? "badge-extracted" : "badge-review-required"}`}>
-                    {exact ? "EXACT TEXT MATCH" : `APPROXIMATE MATCH ${match.score}%`}
+                    {exact ? "EXACT TEXT MATCH" : "APPROXIMATE MATCH"}
                   </span>
                 ) : (
                   <span className="badge badge-review-required">TEXT NOT LOCATED, SHOWING PAGE</span>

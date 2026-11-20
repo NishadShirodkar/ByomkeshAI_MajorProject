@@ -178,21 +178,6 @@ export default function LandingPage({
                 <span className="tag">Review Workflow</span>
               </div>
             </div>
-
-            {/* Feature 6 */}
-            <div className="feature-card">
-              <div className="feature-icon">🌐</div>
-              <h3 className="feature-title">3D Crime Scene Reconstruction Entry</h3>
-              <p className="feature-desc">
-                Direct integration with the forensic 3D crime-scene reconstruction viewer to inspect physical trajectories,
-                vehicle kinematics, impact dynamics, and spatial evidence layouts.
-              </p>
-              <div className="feature-tags">
-                <span className="tag">Trajectory Viewer</span>
-                <span className="tag">Scene Coordinates</span>
-                <span className="tag">Spatial Verification</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>

@@ -1,10 +1,9 @@
-import React, { Component, Suspense, useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Header from "./components/Header.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import InvestigationPage from "./pages/InvestigationPage.jsx";
-import SceneViewer from "./simulation/SceneViewer.jsx";
 import { systemService } from "./services/systemService.js";
 import { authService } from "./services/authService.js";
 
@@ -81,7 +80,7 @@ class ErrorBoundary extends Component {
 }
 
 export default function App() {
-  // Navigation State: 'landing' | 'login' | 'workspace' | 'simulation'
+  // Navigation State: 'landing' | 'login' | 'workspace'
   const [activeView, setActiveView] = useState("landing");
   const [selectedCaseId, setSelectedCaseId] = useState(null);
   const [currentOfficer, setCurrentOfficer] = useState(null);
@@ -111,12 +110,10 @@ export default function App() {
         const cId = hash.replace("case/", "");
         setActiveView("workspace");
         setSelectedCaseId(cId);
-      } else if (hash.startsWith("simulation/")) {
-        const cId = hash.replace("simulation/", "");
-        setActiveView("simulation");
-        setSelectedCaseId(cId || null);
-      } else if (hash === "simulation") {
-        setActiveView("simulation");
+      } else if (hash === "simulation" || hash.startsWith("simulation/")) {
+        // The 3D scene viewer has been retired; send old links to the case workspace instead.
+        const cId = hash.replace(/^simulation\/?/, "");
+        window.location.hash = cId ? `#case/${cId}` : "#cases";
       }
     };
 
@@ -139,12 +136,6 @@ export default function App() {
         window.location.hash = `#case/${caseId}`;
       } else {
         window.location.hash = "#cases";
-      }
-    } else if (view === "simulation") {
-      if (caseId) {
-        window.location.hash = `#simulation/${caseId}`;
-      } else {
-        window.location.hash = "#simulation";
       }
     }
   };
@@ -198,18 +189,16 @@ export default function App() {
   return (
     <ErrorBoundary>
       <div className="app-container">
-        {/* Render Global Header in all views except simulation */}
-        {activeView !== "simulation" && (
-          <Header
-            activeView={activeView}
-            onViewChange={(v) => navigateTo(v, selectedCaseId)}
-            healthStatus={healthStatus}
-            onRefresh={handleManualRefresh}
-            isRefreshing={isRefreshing}
-            currentOfficer={currentOfficer}
-            onLogout={handleLogout}
-          />
-        )}
+        {/* Global Header */}
+        <Header
+          activeView={activeView}
+          onViewChange={(v) => navigateTo(v, selectedCaseId)}
+          healthStatus={healthStatus}
+          onRefresh={handleManualRefresh}
+          isRefreshing={isRefreshing}
+          currentOfficer={currentOfficer}
+          onLogout={handleLogout}
+        />
 
         {/* View Switcher */}
         {activeView === "landing" ? (
@@ -224,44 +213,16 @@ export default function App() {
             onLoginSuccess={handleLoginSuccess}
             onCancel={() => navigateTo("landing")}
           />
-        ) : activeView === "simulation" ? (
-          <Suspense
-            fallback={
-              <div
-                style={{
-                  width: "100vw",
-                  height: "100vh",
-                  background: "#05080f",
-                  color: "#00f0ff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "'Courier New', Courier, monospace",
-                  fontSize: "16px",
-                  letterSpacing: "3px",
-                }}
-              >
-                [ INITIALIZING 3D CRIME SCENE SIMULATION ENGINE... ]
-              </div>
-            }
-          >
-            <SceneViewer
-              initialCaseId={selectedCaseId}
-              onReturnToWorkspace={() => navigateTo("workspace", selectedCaseId)}
-            />
-          </Suspense>
         ) : (
           <main className="main-content">
             {selectedCaseId ? (
               <InvestigationPage
                 caseId={selectedCaseId}
                 onBackToDashboard={() => navigateTo("workspace", null)}
-                onLaunchSimulation={() => navigateTo("simulation", selectedCaseId)}
               />
             ) : (
               <DashboardPage
                 onSelectCase={(id) => navigateTo("workspace", id)}
-                onLaunchSimulation={() => navigateTo("simulation", null)}
                 refreshSignal={refreshSignal}
               />
             )}

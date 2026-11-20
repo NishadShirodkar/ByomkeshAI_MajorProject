@@ -11,7 +11,6 @@ import ArtifactList from "../components/ArtifactList.jsx";
 export default function InvestigationPage({
   caseId,
   onBackToDashboard,
-  onLaunchSimulation,
 }) {
   const [caseData, setCaseData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -150,20 +149,6 @@ export default function InvestigationPage({
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-          {/* Prominent 3D Reconstruction Action Button (Part D requirement) */}
-          <button
-            className="btn btn-outline btn-sm"
-            onClick={onLaunchSimulation}
-            id="case-launch-3d-btn"
-            title="Launch 3D Crime Scene Reconstruction Viewer"
-            style={{ borderColor: "var(--color-accent)", color: "var(--color-accent)", fontWeight: "600" }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "5px" }}>
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            </svg>
-            View 3D Reconstruction of This Case
-          </button>
-
           {isProcessed && (
             <button
               className="btn btn-outline btn-sm"
@@ -346,7 +331,6 @@ export default function InvestigationPage({
           <ChargeSheetPreview
             caseId={caseId}
             reviewStatus={caseData?.review_status}
-            onLaunchSimulation={onLaunchSimulation}
           />
 
           {/* Drill-Down Accordions Section */}

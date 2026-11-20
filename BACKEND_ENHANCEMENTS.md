@@ -326,15 +326,19 @@ Implementation note: pyHanko validation uses asyncio internally, so the upload e
 
 ## 8. Demo data seeding
 
-- **File:** `backend/scripts/seed_demo_cases.py` (run with `python scripts/seed_demo_cases.py [--storage-root PATH] [--public-base-url URL]`)
-- Creates two cases through the real nine-stage pipeline. Only document **parsing** is scripted (`ScriptedParserClient` returns authored structured data in place of Gemini), so the demo works offline and is identical on every run. The source documents are real generated PDFs, so OCR, boxes and click-to-source all work.
+- **Files:** `backend/scripts/seed_demo_cases.py` (run with `python scripts/seed_demo_cases.py [--storage-root PATH] [--public-base-url URL] [--only karol_bagh dwarka rajinder_nagar]`); case content lives in `backend/scripts/demo_cases/` (one module per case, shared PDF rendering in `common.py`)
+- Creates three cases through the real nine-stage pipeline. Only document **parsing** is scripted (`ScriptedParserClient` returns authored structured data in place of Gemini, filtered to the parser schema's fields), so the demo works offline and is identical on every run. The source documents are real generated PDFs rendered from the same payloads, so OCR, boxes and click-to-source all work.
+- Each case carries a full investigation bundle (FIR, complaint, 16 to 30 witness statements, MLC and discharge summary, spot memo, site plan, seizure memos, vehicle, forensic and CCTV records, and a 20+ entry case diary), so all three charge sheets render in the same IF-5 format at 50 to 55 pages.
 
 | Case | Content |
 |---|---|
-| `DEMO_COMPLETED_KarolBagh_Robbery` | 10 documents. Corrections add the final opinion and signature; the case is approved and finalised, signed and QR-verifiable. No contradictions; sections 115, 117, 118, 303, 309, 317 and 351 supported |
-| `DEMO_DRAFT_Dwarka_HitAndRun` | 6 documents. Planted: time mismatch, accused name mismatch, witness statement dated before the incident, vehicle number mismatch, location mismatch. Missing court (a critical blocker), no final opinion; Section 106 shows "insufficient evidence" because the victim survived |
+| `DEMO_COMPLETED_KarolBagh_Robbery` | 41 documents, 51-page charge sheet. Corrections add the final opinion and signature; the case is approved and finalised, signed and QR-verifiable. No contradictions |
+| `DEMO_DRAFT_Dwarka_HitAndRun` | 46 documents, 51-page draft. Planted: time mismatch, accused name mismatch, witness statement dated before the incident, vehicle number mismatch, location mismatch. Accused absconding, car not recovered, FSL awaited; no final opinion |
+| `26a276cb918e5d36ad36c6662e5c6086` | Rajinder Nagar rash-riding case (FIR 0452/2024), 35 documents, 52-page draft. Rebuilt from the original bundle whose files had been ingested unclassified. Investigation complete; IO opinion and signature recorded, awaiting supervisory approval. No contradictions |
 
-Re-running deletes and recreates only these two IDs. To make the QR scannable from a phone, pass `--public-base-url http://<laptop-ip>:8000` and start the API with `--host 0.0.0.0`.
+Re-running deletes and recreates only these three IDs (the 26a case's `processed/scene` folder is not regenerated; copy it back from a backup if needed). To make the QR scannable from a phone, pass `--public-base-url http://<laptop-ip>:8000` and start the API with `--host 0.0.0.0`.
+
+Writing new demo text: the contradiction detector matches cue words as substrings (`white` contains `hit`, `deadline` contains `dead`), and the timeline validator treats any diary event mentioning "occurrence" or "incident" as the incident time. Keep dates and clock times out of sentences that contain such cues unless they match the FIR. The case-context builder also takes every timeline event containing words such as accident, collision, crime, offence or event (which matches "prevent") as the occurrence, so keep those words out of diary and CCTV text and in the FIR narrative.
 
 ---
 

@@ -412,15 +412,6 @@ describe("Byomkesh AI Frontend Integration Suite", () => {
     assert.ok(blob);
   });
 
-  // 15. The existing 3D viewer scenarios registry is accessible
-  it("Requirement 15: 3D scenarios registry is intact and contains default cases", async () => {
-    const { SCENARIO_REGISTRY } = await import("../src/simulation/scenarios/index.js");
-    assert.ok(SCENARIO_REGISTRY);
-    assert.ok(SCENARIO_REGISTRY.case_001);
-    assert.ok(SCENARIO_REGISTRY.case_001.data);
-    assert.ok(SCENARIO_REGISTRY.case_001.data.vehicles.length > 0);
-  });
-
   // 16. No fake cases or fake successful processing states appear by default
   it("Requirement 16: Zero cases returned when backend returns empty case list", async () => {
     globalThis.fetch = async () => {

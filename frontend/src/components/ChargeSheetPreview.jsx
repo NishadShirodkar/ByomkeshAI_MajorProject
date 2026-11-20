@@ -15,7 +15,7 @@ const ROW_GROUPS = [
   ["material_evidence", "Material Evidence"],
 ];
 
-export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus, onLaunchSimulation }) {
+export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus }) {
   const [reviewData, setReviewData] = useState(null);
   const [historyData, setHistoryData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -293,6 +293,14 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
     return <span className="badge badge-extracted">EXTRACTED</span>;
   };
 
+  // Person rows (complainant, victim, accused, witness) start with "Name: ...". Their other lines come from
+  // different documents, so searching the source with the whole cell never matches; search the name alone.
+  const sourceQueryFor = (value) => {
+    const firstLine = String(value).split("\n", 1)[0].trim();
+    const name = /^Name:\s*(.+)$/i.exec(firstLine)?.[1]?.trim();
+    return name || value;
+  };
+
   const renderFieldValue = (field, title) => {
     if (!field || field.status === "unavailable" || !field.value) {
       return <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>[Not Available in Investigation Records]</span>;
@@ -307,7 +315,7 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
           className="btn btn-outline btn-sm source-link-btn"
           style={{ marginLeft: "6px", padding: "1px 8px", fontSize: "11px", verticalAlign: "middle" }}
           title="Show where this appears in the original document"
-          onClick={() => setSourceView({ references, fieldText: field.value, title })}
+          onClick={() => setSourceView({ references, fieldText: sourceQueryFor(field.value), title })}
         >
           📄 Source{references.length > 1 ? ` (${references.length})` : ""}
         </button>
@@ -372,20 +380,6 @@ export default function ChargeSheetPreview({ caseId, reviewStatus: initialStatus
                 id="edit-chargesheet-btn"
               >
                 ✏ Edit Eligible Fields
-              </button>
-            )}
-            {onLaunchSimulation && (
-              <button
-                className="btn btn-outline btn-sm"
-                onClick={onLaunchSimulation}
-                id="chargesheet-launch-3d-btn"
-                style={{ borderColor: "var(--color-accent)", color: "var(--color-accent)", fontWeight: "600" }}
-                title="Open 3D Crime Scene Reconstruction Viewer"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "5px", verticalAlign: "middle" }}>
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                </svg>
-                View 3D Reconstruction of This Case
               </button>
             )}
             {reviewData?.draft_pdf_available && (
